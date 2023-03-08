@@ -8,7 +8,8 @@ import org.springframework.data.domain.Pageable;
 @Builder
 @Getter
 @Setter
-public class ProductSearchCommand extends UserCommand{
+public class ProductSearchCommand extends AnonymousCommand{
     private Long id;
     private Pageable pageable;
+    private String type;
 }
