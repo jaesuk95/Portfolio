@@ -48,6 +48,19 @@ dependencies {
 	testImplementation 'com.h2database:h2'
 }
 
-test {
-	useJUnitPlatform()
+//test {
+//	useJUnitPlatform()
+//}
+
+//tasks.withType(Test) {
+//	useJUnitPlatform()
+//}
+
+tasks.withType(Test) {
+	useJUnitPlatform {
+		excludeEngines 'junit-vintage'
+	}
+	testLogging {
+		events "FAILED", "SKIPPED"
+	}
 }
