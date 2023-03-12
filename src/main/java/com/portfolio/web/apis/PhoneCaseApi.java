@@ -1,7 +1,9 @@
 package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.PhoneCaseRegisterCommand;
+import com.portfolio.domain.common.PhoneCaseSearchCommand;
 import com.portfolio.domain.common.ProductSearchCommand;
+import com.portfolio.domain.common.response.SimpleResponseData;
 import com.portfolio.domain.model.product.phonecase.PhoneCaseService;
 import com.portfolio.web.payload.PhoneCaseRegisterPayload;
 import com.portfolio.web.results.ApiResult;
@@ -11,9 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,6 +49,24 @@ public class PhoneCaseApi extends AbstractBaseController {
             log.error("Unexpected error at POST /api/admin/case");
             return Result.failure(e.getMessage());
         }
+    }
+
+    @PutMapping("/api/admin/case/{id}/on-sale")
+    public ResponseEntity<ApiResult> updateSaleStatus(
+            @PathVariable Long id, @RequestParam boolean sale, HttpServletRequest request) {
+        try {
+            PhoneCaseSearchCommand command = PhoneCaseSearchCommand.builder()
+                    .sale(sale)
+                    .id(id)
+                    .build();
+            addTriggeredBy(command,request);
+            SimpleResponseData responseData = phoneCaseService.updateSaleStatus(command);
+            return Result.ok(ApiResult.data(responseData));
+        } catch (Exception e) {
+            log.error("Unexpected error at POST /api/admin/case/{id}/on-sale id = {}", id);
+            return Result.failure(e.getMessage());
+        }
+
     }
 
 }

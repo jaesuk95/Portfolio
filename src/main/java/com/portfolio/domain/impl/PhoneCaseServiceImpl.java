@@ -1,14 +1,16 @@
 package com.portfolio.domain.impl;
 
 import com.portfolio.domain.common.PhoneCaseRegisterCommand;
+import com.portfolio.domain.common.PhoneCaseSearchCommand;
 import com.portfolio.domain.common.ProductSearchCommand;
+import com.portfolio.domain.common.response.SimpleResponseData;
 import com.portfolio.domain.model.product.phonecase.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -46,6 +48,25 @@ public class PhoneCaseServiceImpl implements PhoneCaseService {
 
         log.info("New Phone-case has been registered case id = {}", phoneCase.getId());
         return phoneCase.getId();
+    }
+
+    @Override
+    public SimpleResponseData updateSaleStatus(PhoneCaseSearchCommand command) {
+        SimpleResponseData responseData = new SimpleResponseData();
+        Optional<PhoneCase> opt_phoneCase = phoneCaseRepository.findByIdJPQL(command.getId());
+        if (opt_phoneCase.isEmpty()) {
+            responseData.setStatus(400);
+            responseData.setMessage("없음");
+            return responseData;
+        }
+
+        PhoneCase phoneCase = opt_phoneCase.get();
+        boolean sale = command.isSale();
+        phoneCase.setSale(sale);
+
+        responseData.setStatus(200);
+        responseData.setMessage("sale status " + phoneCase.isSale());
+        return responseData;
     }
 
 }

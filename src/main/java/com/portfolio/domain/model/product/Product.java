@@ -21,12 +21,11 @@ public class Product {
     private int price;
 
     // 현재 판매 상태
-    private boolean sale;
 
     public Product(String name, int price) {
         this.name = name;
         this.price = price;
-        this.sale = false;
+
     }
 
     public void setModelName(Long id) {

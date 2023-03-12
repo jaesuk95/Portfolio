@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
-import java.util.List;
 
 @Getter
 @Entity
@@ -19,11 +18,17 @@ public class PhoneCase extends Product {
 
     // db 에 phoneType 을 각자 저장하는 이유: 모델마다 가격이 다르거나, 이름이 다를수 있기 때문에
     private PhoneType phoneType;
+    private boolean sale;
+
 
     @Builder
     public PhoneCase(String name, int price, PhoneType phoneType) {
         super(name,price);
         this.phoneType = phoneType;
+        this.sale = false;
     }
 
+    public void setSale(boolean sale) {
+        this.sale = sale;
+    }
 }
