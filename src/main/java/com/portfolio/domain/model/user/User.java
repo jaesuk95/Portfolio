@@ -43,4 +43,9 @@ public class User {
         return new UserId(id);
     }
 
+    public User(String username, String emailAddress, String password) {
+        this.username = username;
+        this.emailAddress = emailAddress;
+        this.password = password;
+    }
 }
