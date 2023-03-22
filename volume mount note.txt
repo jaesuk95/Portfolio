@@ -1,0 +1,5 @@
+docker run -v /home/central/app/spring:/spring -p 8080:8080 my-spring-boot-image
+
+To run a spring boot application with different 'application.properties' file located in '/home/user/app' you can use the docker '-v' option to mount the directory containing the file as a volume inside the container
+
+This command mounts the /home/user/app directory as a volume inside the container at the path '/app'. This means that any changes made to files in the '/home/user/app' directory on the host machine will be reflected inside the container.
