@@ -24,9 +24,13 @@ public class AuthApiController extends AbstractBaseController{
     @PostMapping("/api/auth/registration")
     public ResponseEntity<ApiResult> registerUser(
             @RequestBody UserRegistrationPayload payload, HttpServletRequest request) {
-        UserRegistrationCommand command = payload.toCommand();
-        addTriggeredBy(command,request);
-        userService.register(command);
-        return Result.created();
+        try {
+            UserRegistrationCommand command = payload.toCommand();
+            addTriggeredBy(command, request);
+            userService.register(command);
+            return Result.created();
+        } catch (Exception e) {
+            return Result.failure("실패");
+        }
     }
 }
