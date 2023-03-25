@@ -25,4 +25,16 @@ public class Address {
     private String zipcode;
     private String recipientName;
     private String recipientPhone;
+
+    private boolean mainAddress;
+
+    public Address(User user, String addressName, String addressDetail, String zipcode, String recipientName, String recipientPhone, boolean mainAddress) {
+        this.userId = user;
+        this.addressName = addressName;
+        this.addressDetail = addressDetail;
+        this.zipcode = zipcode;
+        this.recipientName = recipientName;
+        this.recipientPhone = recipientPhone;
+        this.mainAddress = mainAddress;
+    }
 }
