@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDetail {
 
@@ -35,4 +35,10 @@ public class OrderDetail {
 
     @Lob
     private String optionJson;
+
+    public OrderDetail(Product product, Address address, String optionJson) {
+        this.product = product;
+        this.address = address;
+        this.optionJson = optionJson;
+    }
 }

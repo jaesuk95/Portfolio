@@ -1,6 +1,7 @@
 package com.portfolio.web.payload;
 
 import com.portfolio.domain.common.UserOrderRegisterCommand;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ public class UserOrderRegisterPayload {
 
     private List<OrderDetailPayload> orderDetailPayloads = new ArrayList<>();
 
+    @Data
     public static class OrderDetailPayload {
         private Long productId;
         private Long addressId;
@@ -21,7 +23,7 @@ public class UserOrderRegisterPayload {
 
     public UserOrderRegisterCommand toCommand() {
         return UserOrderRegisterCommand.builder()
-                .detailPayloads(this.orderDetailPayloads)
+                .detailCommands(this.orderDetailPayloads)
                 .build();
     }
 }

@@ -32,4 +32,9 @@ public class UserOrder {
             cascade = CascadeType.ALL)
     @Column(unique = true)
     private List<OrderDetail> orderDetailList = new ArrayList<>();
+
+    public UserOrder(User user, List<OrderDetail> orderDetailList) {
+        this.user = user;
+        this.orderDetailList = orderDetailList;
+    }
 }
