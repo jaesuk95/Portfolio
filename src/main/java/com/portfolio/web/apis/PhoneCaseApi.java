@@ -24,6 +24,7 @@ public class PhoneCaseApi extends AbstractBaseController {
 
     private final PhoneCaseService phoneCaseService;
 
+    // 디자인 조회
     @GetMapping("/api/public/case")
     public ResponseEntity<ApiResult> getProducts(
             Pageable pageable, HttpServletRequest request, String type) {
@@ -36,6 +37,7 @@ public class PhoneCaseApi extends AbstractBaseController {
         return Result.ok();
     }
 
+    // 어드민 케이스 탬플릿 등록
     @PostMapping("/api/admin/case")
     public ResponseEntity<ApiResult> registerPhoneCase(
             @RequestBody PhoneCaseRegisterPayload payload,
@@ -51,6 +53,7 @@ public class PhoneCaseApi extends AbstractBaseController {
         }
     }
 
+    // 판매 허가/중단
     @PutMapping("/api/admin/case/{id}/on-sale")
     public ResponseEntity<ApiResult> updateSaleStatus(
             @PathVariable Long id, @RequestParam boolean sale, HttpServletRequest request) {
