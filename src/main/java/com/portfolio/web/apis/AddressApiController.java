@@ -1,6 +1,7 @@
 package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.AddressRegisterCommand;
+import com.portfolio.domain.common.AddressSearchCommand;
 import com.portfolio.domain.model.address.AddressService;
 import com.portfolio.web.payload.AddressRegisterPayload;
 import com.portfolio.web.results.ApiResult;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -35,5 +37,12 @@ public class AddressApiController extends AbstractBaseController{
         }
     }
 
+    @GetMapping("/api/address")
+    public ResponseEntity<ApiResult> getAddresses(HttpServletRequest request) {
+        AddressSearchCommand command = new AddressSearchCommand();
+        addTriggeredBy(command,request);
+        addressService.getAddress(command);
+        return Result.ok();
+    }
 
 }

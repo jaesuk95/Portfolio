@@ -13,5 +13,6 @@ public class PhoneCaseQueryDslRepository extends Querydsl4RepositorySupport {
 
     public void findAll(Pageable pageable, String type) {
         // 앞으로 할 계획
+        // redis 캐싱
     }
 }

@@ -1,6 +1,7 @@
 package com.portfolio.domain.impl;
 
 import com.portfolio.domain.common.AddressRegisterCommand;
+import com.portfolio.domain.common.AddressSearchCommand;
 import com.portfolio.domain.model.address.Address;
 import com.portfolio.domain.model.address.AddressRepository;
 import com.portfolio.domain.model.address.AddressService;
@@ -34,5 +35,11 @@ public class AddressServiceImpl implements AddressService {
         addressRepository.save(address);
 
         return address.getId();
+    }
+
+    @Override
+    public void getAddress(AddressSearchCommand command) {
+        long user_id = command.getUserId().value();
+
     }
 }
