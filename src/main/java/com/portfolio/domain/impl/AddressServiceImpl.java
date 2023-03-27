@@ -2,13 +2,13 @@ package com.portfolio.domain.impl;
 
 import com.portfolio.domain.common.AddressRegisterCommand;
 import com.portfolio.domain.common.AddressSearchCommand;
-import com.portfolio.domain.model.address.Address;
-import com.portfolio.domain.model.address.AddressRepository;
-import com.portfolio.domain.model.address.AddressService;
+import com.portfolio.domain.model.address.*;
 import com.portfolio.domain.model.user.User;
 import com.portfolio.domain.model.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +16,7 @@ public class AddressServiceImpl implements AddressService {
 
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
+    private final AddressQueryDslRepository addressQueryDslRepository;
 
     @Override
     public Long register(AddressRegisterCommand command) {
@@ -38,8 +39,8 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void getAddress(AddressSearchCommand command) {
+    public List<AddressData> getAddress(AddressSearchCommand command) {
         long user_id = command.getUserId().value();
-
+        return addressQueryDslRepository.getAddresses(user_id);
     }
 }
