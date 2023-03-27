@@ -32,13 +32,18 @@ public class PhoneCaseApi extends AbstractBaseController {
     @GetMapping("/api/public/case")
     public ResponseEntity<ApiResult> getProducts(
             Pageable pageable, HttpServletRequest request, String type) {
-        ProductSearchCommand command = ProductSearchCommand.builder()
-                .pageable(pageable)
-                .type(type)
-                .build();
-        addTriggeredBy(command, request);
-        RestPage<PhoneCaseData> sales = phoneCaseService.findAll(command);
-        return Result.ok(ApiResult.list(sales));
+        try {
+            ProductSearchCommand command = ProductSearchCommand.builder()
+                    .pageable(pageable)
+                    .type(type)
+                    .build();
+            addTriggeredBy(command, request);
+            RestPage<PhoneCaseData> sales = phoneCaseService.findAll(command);
+            return Result.ok(ApiResult.list(sales));
+        } catch (Exception e) {
+            log.error("Unexpected error at GET /api/public/case");
+            return Result.failure(e.getMessage());
+        }
     }
 
     // 어드민 케이스 탬플릿 등록
