@@ -7,9 +7,12 @@ import com.portfolio.domain.common.response.SimpleResponseData;
 import com.portfolio.domain.model.product.phonecase.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,9 +24,11 @@ public class PhoneCaseServiceImpl implements PhoneCaseService {
     private final PhoneCaseQueryDslRepository phoneCaseQueryDslRepository;
     private final PhoneCaseRepository phoneCaseRepository;
 
+//    @Cacheable(value = "PHONE_CASE:CACHE:PUBLIC",
+//        key = "'PAGE' + #command.pageable.pageNumber.toString()")
     @Override
-    public void findAll(ProductSearchCommand command) {
-        phoneCaseQueryDslRepository.findAll(command.getPageable(), command.getType());
+    public Page<PhoneCaseData> findAll(ProductSearchCommand command) {
+        return phoneCaseQueryDslRepository.findAll(command.getPageable(), command.getType());
     }
 
     @Override
