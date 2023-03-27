@@ -1,6 +1,7 @@
 package com.portfolio.domain.model.product.phonecase;
 
 import com.portfolio.domain.common.querydsl.Querydsl4RepositorySupport;
+import com.portfolio.domain.common.restpage.RestPage;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +18,11 @@ public class PhoneCaseQueryDslRepository extends Querydsl4RepositorySupport {
         super(PhoneCase.class);
     }
 
-    public Page<PhoneCaseData> findAll(Pageable pageable, String type) {
+    public RestPage<PhoneCaseData> findAll(Pageable pageable, String type) {
         // 앞으로 할 계획
         // redis 캐싱
 
-        return applyPagination(pageable, contentQuery -> contentQuery
+        Page<PhoneCaseData> pagination = applyPagination(pageable, contentQuery -> contentQuery
                 .select(Projections.bean(PhoneCaseData.class,
                         phoneCase.id,
                         phoneCase.phoneType,
@@ -31,5 +32,8 @@ public class PhoneCaseQueryDslRepository extends Querydsl4RepositorySupport {
                 .from(phoneCase)
                 .where(phoneCase.sale.eq(true)));
 
+        return new RestPage<>(pagination.getContent(),
+                pageable,
+                (int) pagination.getTotalElements());
     }
 }

@@ -4,6 +4,7 @@ import com.portfolio.domain.common.PhoneCaseRegisterCommand;
 import com.portfolio.domain.common.PhoneCaseSearchCommand;
 import com.portfolio.domain.common.ProductSearchCommand;
 import com.portfolio.domain.common.response.SimpleResponseData;
+import com.portfolio.domain.common.restpage.RestPage;
 import com.portfolio.domain.model.product.phonecase.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +25,11 @@ public class PhoneCaseServiceImpl implements PhoneCaseService {
     private final PhoneCaseQueryDslRepository phoneCaseQueryDslRepository;
     private final PhoneCaseRepository phoneCaseRepository;
 
-//    @Cacheable(value = "PHONE_CASE:CACHE:PUBLIC",
-//        key = "'PAGE' + #command.pageable.pageNumber.toString()")
+    @Cacheable(value = "PHONE_CASE:CACHE:PUBLIC",
+        key = "'PAGE' + #command.pageable.pageNumber.toString()",
+        cacheManager = "publicRedisCacheManager")
     @Override
-    public Page<PhoneCaseData> findAll(ProductSearchCommand command) {
+    public RestPage<PhoneCaseData> findAll(ProductSearchCommand command) {
         return phoneCaseQueryDslRepository.findAll(command.getPageable(), command.getType());
     }
 

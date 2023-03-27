@@ -4,6 +4,7 @@ import com.portfolio.domain.common.PhoneCaseRegisterCommand;
 import com.portfolio.domain.common.PhoneCaseSearchCommand;
 import com.portfolio.domain.common.ProductSearchCommand;
 import com.portfolio.domain.common.response.SimpleResponseData;
+import com.portfolio.domain.common.restpage.RestPage;
 import com.portfolio.domain.model.product.phonecase.PhoneCaseData;
 import com.portfolio.domain.model.product.phonecase.PhoneCaseService;
 import com.portfolio.web.payload.PhoneCaseRegisterPayload;
@@ -36,7 +37,7 @@ public class PhoneCaseApi extends AbstractBaseController {
                 .type(type)
                 .build();
         addTriggeredBy(command, request);
-        Page<PhoneCaseData> sales = phoneCaseService.findAll(command);
+        RestPage<PhoneCaseData> sales = phoneCaseService.findAll(command);
         return Result.ok(ApiResult.list(sales));
     }
 
