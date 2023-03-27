@@ -1,6 +1,10 @@
 package com.portfolio.config;
 
 import com.portfolio.domain.impl.CustomUserDetailsService;
+import com.portfolio.domain.model.jwt.JwtAccessDeniedHandler;
+import com.portfolio.domain.model.jwt.JwtAuthenticationEntryPoint;
+import com.portfolio.domain.model.jwt.JwtSecurityConfig;
+import com.portfolio.domain.model.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -10,6 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +24,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
  * prePostEnabled = 스프링의 @PreAuthorize, @PreFilter, @PostAuthorize  @PostFilter 활성화 여부
  * securedEnabled = @Secured 어노테이션 활성화 여부
  * jsr250Enabed = @RoleAllowed 어노테이션 사용 활성화 여부
- * */
+ */
 @EnableWebSecurity  // 기본적으로 web 보안을 활성화 하겠다는 의미
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
@@ -27,6 +32,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     // https://fntg.tistory.com/189
     private final CustomUserDetailsService userDetailsService;
+    private final TokenProvider tokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
     // https://www.baeldung.com/spring-boot-security-autoconfiguration
 
@@ -36,7 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     public static final String[] PUBLIC = new String[]{
-            "/api/public/**"};
+            "/api/public/**",
+            "/api/auth/**"};
 
     /*
      * UserDetailsService 설정
@@ -49,7 +58,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        // CSRF 설정 Disable
+        http.csrf().disable()
+
+                // exception handling 할 때 우리가 만든 클래스를 추가
+                .exceptionHandling()
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .and()
+
                 .logout()
                 .logoutUrl("/api/auth/logout")
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
@@ -58,6 +75,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
-        ;
+
+                // 시큐리티는 기본적으로 세션을 사용
+                // 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
+                .and()
+                .apply(new JwtSecurityConfig(tokenProvider));
     }
 }

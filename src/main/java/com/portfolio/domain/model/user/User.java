@@ -3,6 +3,7 @@ package com.portfolio.domain.model.user;
 import com.portfolio.domain.model.address.Address;
 import com.portfolio.domain.model.oauth.ProviderType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -47,5 +49,7 @@ public class User {
         this.username = username;
         this.emailAddress = emailAddress;
         this.password = password;
+        this.role = Role.ROLE_USER; // 인증과정은 생략
+        this.providerType = ProviderType.LOCAL;
     }
 }

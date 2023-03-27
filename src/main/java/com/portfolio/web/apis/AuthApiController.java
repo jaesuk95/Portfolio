@@ -33,7 +33,7 @@ public class AuthApiController extends AbstractBaseController{
             userService.register(command);
             return Result.created();
         } catch (Exception e) {
-            return Result.failure("실패");
+            return Result.failure(e.getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ public class AuthApiController extends AbstractBaseController{
             TokenData tokenData = userService.login(command);
             return Result.ok(ApiResult.data(tokenData));
         } catch (Exception e) {
-            return Result.failure("실패");
+            return Result.failure(e.getMessage());
         }
     }
 }
