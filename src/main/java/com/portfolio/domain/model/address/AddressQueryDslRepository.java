@@ -21,7 +21,8 @@ public class AddressQueryDslRepository extends Querydsl4RepositorySupport {
                         address.addressDetail,
                         address.zipcode,
                         address.recipientName,
-                        address.recipientPhone))
+                        address.recipientPhone,
+                        address.mainAddress))
                 .from(address)
                 .where(address.userId.id.eq(userId))
                 .fetch();
