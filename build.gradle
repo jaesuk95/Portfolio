@@ -29,6 +29,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'com.querydsl:querydsl-core'
 	implementation 'com.querydsl:querydsl-jpa'
 	implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
@@ -47,6 +48,11 @@ dependencies {
 	implementation 'com.h2database:h2'
 	testImplementation 'com.h2database:h2'
 
+	// jwt 관련 의존성
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+
 	// rabbitMQ
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 	testImplementation 'org.springframework.amqp:spring-rabbit-test'
@@ -56,6 +62,9 @@ dependencies {
 
 	// app-annotation
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// https://mvnrepository.com/artifact/joda-time/joda-time joda time
+	implementation group: 'joda-time', name: 'joda-time', version: '2.12.2'
 }
 
 //test {

@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
  * securedEnabled = @Secured 어노테이션 활성화 여부
  * jsr250Enabed = @RoleAllowed 어노테이션 사용 활성화 여부
  * */
-@EnableWebSecurity
+@EnableWebSecurity  // 기본적으로 web 보안을 활성화 하겠다는 의미
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -50,18 +50,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .exceptionHandling()
-                .and()
                 .logout()
                 .logoutUrl("/api/auth/logout")
                 .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
                 .and()
-                .authorizeRequests()
+                .authorizeRequests()    // 요청 접근제한을 설정
                 .antMatchers(PUBLIC).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
-                .and()
         ;
     }
 }
