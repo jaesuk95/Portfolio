@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 
+// access & refresh token 을 구현하기 위해서 여기 블로그보고 따라했다
+// https://bcp0109.tistory.com/301
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

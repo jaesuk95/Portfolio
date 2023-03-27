@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+// access & refresh token 을 구현하기 위해서 여기 블로그보고 따라했다
+// https://bcp0109.tistory.com/301
 // OncePerRequestFilter 인터페이스를 구현하기 때문에 요청 받을 때 단 한번만 실행된다.
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
