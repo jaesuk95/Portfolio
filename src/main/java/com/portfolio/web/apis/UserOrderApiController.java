@@ -38,6 +38,7 @@ public class UserOrderApiController extends AbstractBaseController {
         }
     }
 
+    // bootpay 테스트 코드 추가 예정
     @PostMapping("/api/order/payment")
     public ResponseEntity<ApiResult> payment(
             @RequestBody PaymentPayload payload, HttpServletRequest request) {
@@ -49,5 +50,10 @@ public class UserOrderApiController extends AbstractBaseController {
         } catch (Exception e) {
             return Result.failure(e.getMessage());
         }
+    }
+
+    @PostMapping("/api/public/bootpay/webhook")
+    public ResponseEntity<ApiResult> bootpayWebhook(HttpServletRequest request) {
+        return null;
     }
 }

@@ -31,6 +31,7 @@ public class UserOrderServiceImpl implements UserOrderService {
     private final PhoneCaseRepository phoneCaseRepository;
     private final AddressRepository addressRepository;
     private final BootpayPaymentProcess bootpayPaymentProcess;
+    private final RabbitMQManagement rabbitMQManagement;
 
     @Override
     public String registerOrder(UserOrderRegisterCommand command) {
@@ -75,10 +76,9 @@ public class UserOrderServiceImpl implements UserOrderService {
 
         // 이메일
         rabbitMQManagement.sendUserOrderMessage(userOrder);
-        // 슬랙
     }
 
-    private final RabbitMQManagement rabbitMQManagement;
+
 
 }
 
