@@ -87,6 +87,5 @@ public class RabbitMQManagement {
                 EmailTemplate.USER_PAYMENT,
                 objectMap,
                 RabbitQueue.ORDER);
-
     }
 }
