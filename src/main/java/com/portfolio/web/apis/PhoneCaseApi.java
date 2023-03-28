@@ -46,39 +46,6 @@ public class PhoneCaseApi extends AbstractBaseController {
         }
     }
 
-    // 어드민 케이스 탬플릿 등록
-    @PostMapping("/api/admin/case")
-    public ResponseEntity<ApiResult> registerPhoneCase(
-            @RequestBody PhoneCaseRegisterPayload payload,
-            HttpServletRequest request) {
-        try {
-            PhoneCaseRegisterCommand command = payload.toCommand();
-            addTriggeredBy(command, request);
-            Long id = phoneCaseService.registerByAdmin(command);
-            return Result.ok(String.valueOf(id));
-        } catch (Exception e) {
-            log.error("Unexpected error at POST /api/admin/case");
-            return Result.failure(e.getMessage());
-        }
-    }
 
-    // 판매 허가/중단
-    @PutMapping("/api/admin/case/{id}/on-sale")
-    public ResponseEntity<ApiResult> updateSaleStatus(
-            @PathVariable Long id, @RequestParam boolean sale, HttpServletRequest request) {
-        try {
-            PhoneCaseSearchCommand command = PhoneCaseSearchCommand.builder()
-                    .sale(sale)
-                    .id(id)
-                    .build();
-            addTriggeredBy(command,request);
-            SimpleResponseData responseData = phoneCaseService.updateSaleStatus(command);
-            return Result.ok(ApiResult.data(responseData));
-        } catch (Exception e) {
-            log.error("Unexpected error at POST /api/admin/case/{id}/on-sale id = {}", id);
-            return Result.failure(e.getMessage());
-        }
-
-    }
 
 }
