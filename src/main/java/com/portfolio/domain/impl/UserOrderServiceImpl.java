@@ -1,10 +1,11 @@
 package com.portfolio.domain.impl;
 
 import com.portfolio.domain.common.UserOrderRegisterCommand;
-import com.portfolio.domain.model.order.OrderDetail;
-import com.portfolio.domain.model.order.UserOrder;
-import com.portfolio.domain.model.order.UserOrderRepository;
-import com.portfolio.domain.model.order.UserOrderService;
+import com.portfolio.domain.model.address.Address;
+import com.portfolio.domain.model.address.AddressRepository;
+import com.portfolio.domain.model.order.*;
+import com.portfolio.domain.model.product.phonecase.PhoneCase;
+import com.portfolio.domain.model.product.phonecase.PhoneCaseRepository;
 import com.portfolio.domain.model.user.User;
 import com.portfolio.domain.model.user.UserRepository;
 import com.portfolio.web.payload.UserOrderRegisterPayload;
@@ -22,6 +23,9 @@ public class UserOrderServiceImpl implements UserOrderService {
 
     private final UserRepository userRepository;
     private final UserOrderRepository userOrderRepository;
+    private final OrderDetailRepository orderDetailRepository;
+    private final PhoneCaseRepository phoneCaseRepository;
+    private final AddressRepository addressRepository;
 
     @Override
     public String registerOrder(UserOrderRegisterCommand command) {
@@ -35,12 +39,16 @@ public class UserOrderServiceImpl implements UserOrderService {
             Long productId = detail.getProductId();
             String optionJson = detail.getOptionJson();
 
-            OrderDetail orderDetail = new OrderDetail(
-                    // product,
-                    // address,
-                    // optionJson
-            );
+            Address address = addressRepository.findById(addressId).orElseThrow();
+            PhoneCase phoneCase = phoneCaseRepository.findById(productId).orElseThrow();
 
+            OrderDetail orderDetail = new OrderDetail(
+                    phoneCase,
+                    address,
+                    optionJson
+            );
+            orderDetailRepository.save(orderDetail);
+            orderDetail.createOrderDetailNumber();
             orderDetails.add(orderDetail);
         }
 
@@ -50,12 +58,8 @@ public class UserOrderServiceImpl implements UserOrderService {
         UserOrder userOrder = new UserOrder(user,orderDetails);
         userOrderRepository.save(userOrder);
 
-        // TODO:
-        // 1. userOrderNumber
-        // 2. userOrderDetailNumber
-        // 3. userOrderDetail orderNumber (JPA relationship)
-
-        return null;
+        userOrder.createUserOrderNumber();
+        return userOrder.getOrderNumber();
     }
 }
 

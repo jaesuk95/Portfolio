@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +38,10 @@ public class UserOrder {
     public UserOrder(User user, List<OrderDetail> orderDetailList) {
         this.user = user;
         this.orderDetailList = orderDetailList;
+    }
+
+    public void createUserOrderNumber() {
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+        this.orderNumber = date + id;
     }
 }

@@ -20,7 +20,9 @@ public class Product {
     private String modelName;
     private int price;
 
-    // 현재 판매 상태
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID")
+    private ProductCategory productCategory;
 
     public Product(String name, int price) {
         this.name = name;

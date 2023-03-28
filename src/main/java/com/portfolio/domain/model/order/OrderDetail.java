@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -40,5 +42,19 @@ public class OrderDetail {
         this.product = product;
         this.address = address;
         this.optionJson = optionJson;
+    }
+
+    public void createOrderDetailNumber() {
+        String initial;
+
+        String categoryName = product.getProductCategory().getCategoryName().toLowerCase();
+        if (categoryName.equals("phone")) {
+            initial = "P";
+        } else {
+            initial = "UNKNOWN_";
+        }
+
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+        this.orderDetailNumber = initial + date + id;
     }
 }
