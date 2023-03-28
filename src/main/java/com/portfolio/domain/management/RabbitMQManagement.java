@@ -41,6 +41,7 @@ public class RabbitMQManagement {
     public void sendWelcomeMessage(User user, String link) {
         Map<String, String> userData = new HashMap<>();
         userData.put("name", user.getUsername());
+        userData.put("link", link);
         userData.put("registerDate", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd")));
 
         Map<String, Object> userMap = new HashMap<>();
