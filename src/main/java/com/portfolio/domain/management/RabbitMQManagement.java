@@ -9,7 +9,6 @@ import com.portfolio.domain.model.user.User;
 import com.portfolio.infrastructure.mail.EmailTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -63,7 +62,7 @@ public class RabbitMQManagement {
             orderDetailMap.put("username", userOrderDetail.getAddress().getRecipientName());
             orderDetailMap.put("postal", userOrderDetail.getAddress().getZipcode());
             orderDetailMap.put("quantity", String.valueOf(userOrderDetail.getQuantity()));
-            orderDetailMap.put("productPrice", String.valueOf(userOrderDetail.getPrice()));
+            orderDetailMap.put("productPrice", String.valueOf(userOrderDetail.getProductPrice()));
             orderDetailMap.put("phone", userOrderDetail.getAddress().getRecipientPhone());
             orderDetailMap.put("productName", userOrderDetail.getProduct().getName());      // 이름에 추가하고 싶은데
             orderDetailMap.put("status", userOrderDetail.getDetailStatus().toString());
