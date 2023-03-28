@@ -2,6 +2,7 @@ package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.TemplateRegisterCommand;
 import com.portfolio.domain.model.template.TemplateService;
+import com.portfolio.web.payload.RedisRegisterPayload;
 import com.portfolio.web.results.ApiResult;
 import com.portfolio.web.results.Result;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +27,10 @@ public class TemplateApiController extends AbstractBaseController {
 
     @PutMapping("/api/admin/template/email")
     public ResponseEntity<ApiResult> registerTemplate(
-            @RequestParam String key, @RequestParam String value,
+            @RequestBody RedisRegisterPayload payload,
             HttpServletRequest request) {
         try {
-            TemplateRegisterCommand command = new TemplateRegisterCommand(key, value);
+            TemplateRegisterCommand command = payload.toCommand();
             addTriggeredBy(command, request);
             templateService.register(command);
             return Result.ok();
