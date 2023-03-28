@@ -37,6 +37,23 @@ public class UserOrder {
 
     private UserOrderStatus orderStatus;
 
+    private int totalPrice;
+
+    private LocalDateTime serverCancelledAt;
+
+    private String cancelled_at;
+    private String cancelReason;    // Lob?
+
+    private String receipt_id;      // OrderBootPay DTO 에서 사용하는 객체, 부트페이에서 발급하는 고유 영수증 ID
+    private String receipt_url;
+    private String method;          // 결제된 수단 Alias ( ex. card, vbank, bank, phone )
+    private String method_name;     // 결제된 수단의 명칭
+    private String pg;              // 결제된 PG의 Alias ( ex. danal, inicis, kcp )
+    private String pg_name;         // 결제된 PG사의 명칭
+    private String purchased_at;    // 결제 승인이 된 시각 ( 한국 기준시 +09:00 )
+    private String revoked_at;      // 결제가 취소된 시각 ( 한국 기준시 +09:00 )
+    private Long status;             // 결제 상태, 현재 결제의 상태를 나타냅니다.
+
     public UserOrder(User user, List<OrderDetail> orderDetailList) {
         this.user = user;
         this.orderDetailList = orderDetailList;
@@ -46,5 +63,32 @@ public class UserOrder {
     public void createUserOrderNumber() {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
         this.orderNumber = date + id;
+    }
+
+    public void setBootPayResults(String receipt_url,
+                                  Long status,
+                                  String pg,
+                                  String pg_name,
+                                  String method,
+                                  String method_name,
+                                  String receipt_id,
+                                  String purchased_at,
+                                  UserOrderStatus userOrderStatus) {
+        this.receipt_url = receipt_url;
+        this.status = status;
+        this.pg = pg;
+        this.pg_name = pg_name;
+        this.method = method;
+        this.method_name = method_name;
+        this.receipt_id = receipt_id;
+        this.purchased_at = purchased_at;
+        this.orderStatus = userOrderStatus;
+    }
+
+    public void updateDetailStatus() {
+        List<OrderDetail> detailList = orderDetailList;
+        for (OrderDetail orderDetail : detailList) {
+            orderDetail.updateDetailStatus(UserOrderStatus.주문준비중);
+        }
     }
 }

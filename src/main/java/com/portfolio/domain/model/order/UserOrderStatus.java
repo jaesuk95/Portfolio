@@ -5,5 +5,6 @@ public enum UserOrderStatus {
     결제완료,
     결제취소,
     배송준비,
-    배송완료
+    배송완료,
+    주문준비중
 }

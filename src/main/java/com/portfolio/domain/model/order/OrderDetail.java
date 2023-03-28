@@ -60,4 +60,8 @@ public class OrderDetail {
         String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
         this.orderDetailNumber = initial + date + id;
     }
+
+    public void updateDetailStatus(UserOrderStatus detailStatus) {
+        this.detailStatus = detailStatus;
+    }
 }

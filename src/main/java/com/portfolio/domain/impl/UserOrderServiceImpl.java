@@ -1,6 +1,9 @@
 package com.portfolio.domain.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.common.UserOrderRegisterCommand;
+import com.portfolio.domain.common.bootpay.BootpayPaymentProcess;
 import com.portfolio.domain.model.address.Address;
 import com.portfolio.domain.model.address.AddressRepository;
 import com.portfolio.domain.model.order.*;
@@ -26,6 +29,7 @@ public class UserOrderServiceImpl implements UserOrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final PhoneCaseRepository phoneCaseRepository;
     private final AddressRepository addressRepository;
+    private final BootpayPaymentProcess bootpayPaymentProcess;
 
     @Override
     public String registerOrder(UserOrderRegisterCommand command) {
@@ -61,5 +65,17 @@ public class UserOrderServiceImpl implements UserOrderService {
         userOrder.createUserOrderNumber();
         return userOrder.getOrderNumber();
     }
+
+    @Override
+    public void validatePayment(PaymentCommand command) throws JsonProcessingException {
+        UserOrder userOrder = userOrderRepository.findByOrderNumberJPQL(command.getOrderNumber());
+        bootpayPaymentProcess.validatePayment(userOrder, command);
+        userOrder.updateDetailStatus();
+
+        // 이메일
+        // 슬랙
+    }
+
+
 }
 

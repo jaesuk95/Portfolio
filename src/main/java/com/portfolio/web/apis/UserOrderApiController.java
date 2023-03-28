@@ -1,7 +1,9 @@
 package com.portfolio.web.apis;
 
+import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.common.UserOrderRegisterCommand;
 import com.portfolio.domain.model.order.UserOrderService;
+import com.portfolio.web.payload.PaymentPayload;
 import com.portfolio.web.payload.UserOrderRegisterPayload;
 import com.portfolio.web.results.ApiResult;
 import com.portfolio.web.results.Result;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,4 +38,16 @@ public class UserOrderApiController extends AbstractBaseController {
         }
     }
 
+    @PostMapping("/api/order/payment")
+    public ResponseEntity<ApiResult> payment(
+            @RequestBody PaymentPayload payload, HttpServletRequest request) {
+        try {
+            PaymentCommand paymentCommand = payload.toCommand();
+            addTriggeredBy(paymentCommand, request);
+            userOrderService.validatePayment(paymentCommand);
+            return Result.ok();
+        } catch (Exception e) {
+            return Result.failure(e.getMessage());
+        }
+    }
 }
