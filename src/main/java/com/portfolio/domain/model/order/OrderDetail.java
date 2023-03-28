@@ -40,6 +40,9 @@ public class OrderDetail {
 
     private UserOrderStatus detailStatus;
 
+    private int quantity;
+    private int price;
+
     public OrderDetail(Product product, Address address, String optionJson) {
         this.product = product;
         this.address = address;

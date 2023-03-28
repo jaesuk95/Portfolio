@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.common.UserOrderRegisterCommand;
 import com.portfolio.domain.common.bootpay.BootpayPaymentProcess;
+import com.portfolio.domain.management.RabbitMQManagement;
 import com.portfolio.domain.model.address.Address;
 import com.portfolio.domain.model.address.AddressRepository;
 import com.portfolio.domain.model.order.*;
@@ -73,9 +74,11 @@ public class UserOrderServiceImpl implements UserOrderService {
         userOrder.updateDetailStatus();
 
         // 이메일
+        rabbitMQManagement.sendUserOrderMessage(userOrder);
         // 슬랙
     }
 
+    private final RabbitMQManagement rabbitMQManagement;
 
 }
 

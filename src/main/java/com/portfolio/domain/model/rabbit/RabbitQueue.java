@@ -5,6 +5,7 @@ public enum RabbitQueue {
     // Route Key 값들 (더 추가 가능)
     USER_REGISTER("register"),      // 회원가입
     QR_EMAIL("qrEmail"),
+    ORDER("order"),
     VERIFY_CODE("verifyCode");
     //
 

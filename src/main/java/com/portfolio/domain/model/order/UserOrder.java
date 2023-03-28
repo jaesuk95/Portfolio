@@ -18,6 +18,8 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserOrder {
 
+    // 쿠폰은 생략합니다
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
