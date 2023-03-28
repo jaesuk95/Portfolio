@@ -25,10 +25,14 @@ public class UserOrderApiController extends AbstractBaseController {
     public ResponseEntity<ApiResult> userOrder(
             @RequestBody UserOrderRegisterPayload payload,
             HttpServletRequest request) {
-        UserOrderRegisterCommand command = payload.toCommand();
-        addTriggeredBy(command,request);
-        String orderNumber = userOrderService.registerOrder(command);
-        return Result.ok(orderNumber);
+        try {
+            UserOrderRegisterCommand command = payload.toCommand();
+            addTriggeredBy(command, request);
+            String orderNumber = userOrderService.registerOrder(command);
+            return Result.ok(orderNumber);
+        } catch (Exception e) {
+            return Result.failure(e.getMessage());
+        }
     }
 
 }

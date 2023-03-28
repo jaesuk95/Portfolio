@@ -6,7 +6,7 @@ public enum PhoneType {
 
     APPLE("apple"),
     GALAXY("galaxy"),
-    ONEPLUX("onePlus");
+    ONEPLUS("onePlus");
 
     private final String name;
 

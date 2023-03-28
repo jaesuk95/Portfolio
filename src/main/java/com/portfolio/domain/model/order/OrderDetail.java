@@ -38,10 +38,13 @@ public class OrderDetail {
     @Lob
     private String optionJson;
 
+    private UserOrderStatus detailStatus;
+
     public OrderDetail(Product product, Address address, String optionJson) {
         this.product = product;
         this.address = address;
         this.optionJson = optionJson;
+        this.detailStatus = UserOrderStatus.미결제;
     }
 
     public void createOrderDetailNumber() {

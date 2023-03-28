@@ -35,9 +35,12 @@ public class UserOrder {
     @Column(unique = true)
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
+    private UserOrderStatus orderStatus;
+
     public UserOrder(User user, List<OrderDetail> orderDetailList) {
         this.user = user;
         this.orderDetailList = orderDetailList;
+        this.orderStatus = UserOrderStatus.미결제;
     }
 
     public void createUserOrderNumber() {
