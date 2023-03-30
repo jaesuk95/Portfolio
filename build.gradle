@@ -5,13 +5,18 @@ plugins {
 }
 
 group = 'com.portfolio'
-version = '0.0.9'
+version = '0.0.10'
 targetCompatibility = '11'
 
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+jar {
+	enabled = true
+	exclude("META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA", "*-plain.jar")
 }
 
 //bootJar {
