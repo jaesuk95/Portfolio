@@ -10,18 +10,19 @@
 ## jar 파일 실행
 #ENTRYPOINT ["java", "-jar", "/app.jar"]
 
-FROM openjdk:11 as builder
-
-COPY gradlew .
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
-COPY src src
-RUN chmod +x ./gradlew
-RUN ./gradlew bootJar
+#FROM openjdk:11 as builder
+#
+#COPY gradlew .
+#COPY gradle gradle
+#COPY build.gradle .
+#COPY settings.gradle .
+#COPY src src
+#RUN chmod +x ./gradlew
+#RUN ./gradlew bootJar
 
 FROM openjdk:11
-ARG JAR_FILE
+#ARG JAR_FILE
+ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "/app.jar"]
