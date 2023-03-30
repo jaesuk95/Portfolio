@@ -2,6 +2,7 @@ package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.common.UserOrderRegisterCommand;
+import com.portfolio.domain.model.bootpay.PaymentResultData;
 import com.portfolio.domain.model.order.UserOrderService;
 import com.portfolio.web.payload.PaymentPayload;
 import com.portfolio.web.payload.UserOrderRegisterPayload;
@@ -55,10 +56,14 @@ public class UserOrderApiController extends AbstractBaseController {
     @PostMapping("/api/order/payment/cancel")
     public ResponseEntity<ApiResult> cancelPayment (
             @RequestBody PaymentPayload payload, HttpServletRequest request) {
-        PaymentCommand paymentCommand = payload.toCommand();
-        addTriggeredBy(paymentCommand,request);
-        userOrderService.cancelPayment(paymentCommand);
-        return Result.ok();
+        try {
+            PaymentCommand paymentCommand = payload.toCommand();
+            addTriggeredBy(paymentCommand, request);
+            PaymentResultData result = userOrderService.cancelPayment(paymentCommand);
+            return Result.ok(ApiResult.data(result));
+        } catch (Exception e) {
+            return Result.failure(e.getMessage());
+        }
     }
 
     @PostMapping("/api/public/bootpay/webhook")

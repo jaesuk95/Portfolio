@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(isolation = Isolation.SERIALIZABLE)
 public class BootpayPaymentProcess {
-
-    private final UserOrderRepository userOrderRepository;
     private final BootpayService bootpayService;
 
     public void validatePayment(UserOrder userOrder, PaymentCommand command) throws JsonProcessingException {
