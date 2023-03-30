@@ -52,6 +52,15 @@ public class UserOrderApiController extends AbstractBaseController {
         }
     }
 
+    @PostMapping("/api/order/payment/cancel")
+    public ResponseEntity<ApiResult> cancelPayment (
+            @RequestBody PaymentPayload payload, HttpServletRequest request) {
+        PaymentCommand paymentCommand = payload.toCommand();
+        addTriggeredBy(paymentCommand,request);
+        userOrderService.cancelPayment(paymentCommand);
+        return Result.ok();
+    }
+
     @PostMapping("/api/public/bootpay/webhook")
     public ResponseEntity<ApiResult> bootpayWebhook(HttpServletRequest request) {
         return null;

@@ -88,4 +88,11 @@ public class RabbitMQManagement {
                 objectMap,
                 RabbitQueue.ORDER);
     }
+
+    public void sendOrderCancelEmail(UserOrder userOrder) {
+//        sendMessage(userOrder.getUser().getEmailAddress(),
+//                EmailTemplate.USER_PAYMENT,
+//                objectMap,
+//                RabbitQueue.ORDER);
+    }
 }

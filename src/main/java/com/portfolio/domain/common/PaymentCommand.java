@@ -10,4 +10,5 @@ import lombok.Setter;
 public class PaymentCommand extends AnonymousCommand{
     private String orderNumber;
     private String receiptNumber;
+    private String cancelReason;
 }

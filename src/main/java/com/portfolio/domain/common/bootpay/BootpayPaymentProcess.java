@@ -47,4 +47,8 @@ public class BootpayPaymentProcess {
                 UserOrderStatus.결제완료
         );
     }
+
+    public void cancelOrder(UserOrder userOrder, PaymentCommand command) throws JsonProcessingException {
+        bootpayService.bootpayCancel(userOrder, command);
+    }
 }

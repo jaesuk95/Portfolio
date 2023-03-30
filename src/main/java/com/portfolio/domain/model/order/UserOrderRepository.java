@@ -9,4 +9,10 @@ public interface UserOrderRepository extends JpaRepository<UserOrder,Long> {
     @Query("select o from UserOrder o " +
             "where o.orderNumber = :orderNumber")
     UserOrder findByOrderNumberJPQL(@Param("orderNumber") String orderNumber);
+
+    @Query("select o from UserOrder o " +
+            "where o.orderNumber = :orderNumber and " +
+            "o.user.id = :userId")
+    UserOrder findMyOrderJPQL(@Param("orderNumber") String orderNumber,
+                              @Param("userId") Long userId);
 }

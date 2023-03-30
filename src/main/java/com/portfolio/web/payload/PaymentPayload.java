@@ -10,8 +10,11 @@ public class PaymentPayload {
     private String orderNumber;
     private String receiptNumber;
 
+    private String cancelReason;
+
     public PaymentCommand toCommand() {
         return PaymentCommand.builder()
+                .cancelReason(this.cancelReason)
                 .orderNumber(this.orderNumber)
                 .receiptNumber(this.receiptNumber)
                 .build();

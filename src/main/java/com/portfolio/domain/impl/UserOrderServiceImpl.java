@@ -7,6 +7,7 @@ import com.portfolio.domain.common.bootpay.BootpayPaymentProcess;
 import com.portfolio.domain.management.RabbitMQManagement;
 import com.portfolio.domain.model.address.Address;
 import com.portfolio.domain.model.address.AddressRepository;
+import com.portfolio.domain.model.bootpay.PaymentResultData;
 import com.portfolio.domain.model.order.*;
 import com.portfolio.domain.model.product.phonecase.PhoneCase;
 import com.portfolio.domain.model.product.phonecase.PhoneCaseRepository;
@@ -78,6 +79,26 @@ public class UserOrderServiceImpl implements UserOrderService {
         rabbitMQManagement.sendUserOrderMessage(userOrder);
     }
 
+    @Override
+    public PaymentResultData cancelPayment(PaymentCommand command) throws JsonProcessingException {
+        PaymentResultData resultData = new PaymentResultData();
+
+        UserOrder userOrder = userOrderRepository.findMyOrderJPQL(command.getOrderNumber(), command.getUserId());
+
+        if (userOrder.getOrderStatus().equals(UserOrderStatus.취소완료)) {
+            resultData.setStatusCode(400);
+            resultData.setMessage("이미 취소완료 상태입니다.");
+            return resultData;
+        }
+
+        userOrder.orderCancelRequest(command.getCancelReason());
+        bootpayPaymentProcess.cancelOrder(userOrder,command);
+        rabbitMQManagement.sendOrderCancelEmail(userOrder);
+
+        resultData.setStatusCode(200);
+        resultData.setMessage("결제취소 완료");
+        return resultData;
+    }
 
 
 }

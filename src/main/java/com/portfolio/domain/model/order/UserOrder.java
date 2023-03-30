@@ -43,6 +43,11 @@ public class UserOrder {
 
     private LocalDateTime serverCancelledAt;
 
+    public void orderCancelRequest(String cancelReason) {
+        this.serverCancelledAt = LocalDateTime.now();
+        this.cancelReason = cancelReason;
+    }
+
     private String cancelled_at;
     private String cancelReason;    // Lob?
 
@@ -92,5 +97,14 @@ public class UserOrder {
         for (OrderDetail orderDetail : detailList) {
             orderDetail.updateDetailStatus(UserOrderStatus.주문준비중);
         }
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public void setBootPayCancelResults(String cancelled_at, long status) {
+        this.cancelled_at = cancelled_at;
+        this.status = status;
     }
 }
