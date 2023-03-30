@@ -1,3 +1,15 @@
 현재 github webhook 이 안되는 상태,
 
 github PayloadURL 에서 의심
+
+
+안되는 원인 :
+Yes, you may need to set up ngrok for Jenkins GitHub webhook
+if your Jenkins server is not accessible from the internet.
+
+Ngrok is a tool that creates a secure tunnel from the public internet
+to a local machine, allowing you to expose a web server running on your
+local machine to the internet.
+
+By using ngrok, you can expose your Jenkins server to the internet,
+and GitHub can send webhook events to your Jenkins server via the ngrok tunnel.
