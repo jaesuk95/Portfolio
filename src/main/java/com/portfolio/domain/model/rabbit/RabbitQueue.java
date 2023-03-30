@@ -6,7 +6,7 @@ public enum RabbitQueue {
     USER_REGISTER("register"),      // 회원가입
     QR_EMAIL("qrEmail"),
     ORDER("order"),
-    VERIFY_CODE("verifyCode");
+    VERIFY_CODE("verifyCode"), CANCEL_ORDER("cancel");
     //
 
     private final String queueName;

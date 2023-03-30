@@ -53,6 +53,24 @@ public class RabbitMQManagement {
     }
 
     public void sendUserOrderMessage(UserOrder userOrder) {
+        Map<String, Object> objectMap = userOrderListFormat(userOrder);
+
+        sendMessage(userOrder.getUser().getEmailAddress(),
+                EmailTemplate.USER_PAYMENT,
+                objectMap,
+                RabbitQueue.ORDER);
+    }
+
+    public void sendOrderCancelEmail(UserOrder userOrder) {
+        Map<String, Object> objectMap = userOrderListFormat(userOrder);
+
+        sendMessage(userOrder.getUser().getEmailAddress(),
+                EmailTemplate.USER_CANCEL_PAYMENT,
+                objectMap,
+                RabbitQueue.CANCEL_ORDER);
+    }
+
+    private Map<String, Object> userOrderListFormat(UserOrder userOrder) {
         List<OrderDetail> userOrderDetails = userOrder.getOrderDetailList();
 
         List<Map<String, String>> mapList = new ArrayList<>();
@@ -82,17 +100,6 @@ public class RabbitMQManagement {
 
         Map<String, Object> objectMap = new HashMap<>();
         objectMap.put("userOrder", userOrderMap);
-
-        sendMessage(userOrder.getUser().getEmailAddress(),
-                EmailTemplate.USER_PAYMENT,
-                objectMap,
-                RabbitQueue.ORDER);
-    }
-
-    public void sendOrderCancelEmail(UserOrder userOrder) {
-//        sendMessage(userOrder.getUser().getEmailAddress(),
-//                EmailTemplate.USER_PAYMENT,
-//                objectMap,
-//                RabbitQueue.ORDER);
+        return userOrderMap;
     }
 }
