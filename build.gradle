@@ -77,6 +77,10 @@ dependencies {
 
 	// bootpay -> https://github.com/bootpay/backend-java-example
 	implementation 'io.github.bootpay:backend:+'
+
+	// h2
+	implementation 'com.h2database:h2'
+	testImplementation 'com.h2database:h2'
 }
 
 //test {
