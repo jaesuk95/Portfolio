@@ -30,4 +30,12 @@ public class CustomCase {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User creator;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ORIGIN_CUSTOM_CASE_ID")
+    private CustomCase originDesign;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "INHERIT_CUSTOM_CASE_ID")
+    private CustomCase inheritDesign;
 }

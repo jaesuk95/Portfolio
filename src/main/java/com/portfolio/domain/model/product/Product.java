@@ -1,5 +1,6 @@
 package com.portfolio.domain.model.product;
 
+import com.portfolio.domain.model.material.Material;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,10 @@ public class Product {
     private String name;
     private String modelName;
     private int price;
+
+    @ManyToOne
+    @JoinColumn(name = "MATERIAL_ID")
+    protected Material material;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
