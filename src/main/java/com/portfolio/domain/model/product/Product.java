@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
 @NoArgsConstructor
 public class Product {
