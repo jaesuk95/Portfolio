@@ -5,6 +5,7 @@ import com.portfolio.domain.impl.BootpayServiceImpl;
 import com.portfolio.domain.model.bootpay.BootpayApiResultData;
 import com.portfolio.domain.model.order.UserOrder;
 import com.portfolio.domain.model.order.UserOrderRepository;
+import com.portfolio.factory.WithUser;
 import com.portfolio.utils.JsonUtils;
 import com.portfolio.web.payload.PaymentPayload;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.Cookie;
@@ -26,9 +28,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("initDB")
+@Sql(value = {"classpath:database/mockData.sql"})
 public class BootpayApiTest {
 
     @Autowired
@@ -41,10 +47,11 @@ public class BootpayApiTest {
     private BootpayServiceImpl bootpayServiceMock;
 
     @Test
+    @WithUser(value = "admin")
     void bootpay_api_test() throws Exception {
-        String orderNumber = "";
+        String orderNumber = "2304011";
         UserOrder userOrder = userOrderRepository.findByOrderNumberJPQL(orderNumber);
-        String receiptId = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy-MM-dd"));
+        String receiptId = "6265f5cce38c300045508c75";
 
         PaymentPayload payload = new PaymentPayload();
         payload.setOrderNumber(orderNumber);
@@ -67,11 +74,12 @@ public class BootpayApiTest {
         when(bootpayServiceMock.getVerificationData(any()))
                 .thenReturn(bootpayApiResultData);
 
-        mvc.perform(post("/api/order/bootpay")
+        mvc.perform(post("/api/order/payment")
                 .contentType(MediaType.APPLICATION_JSON)
                 .cookie(new Cookie("_uuid", "abc"))
                 .content(JsonUtils.toJson(payload))
         ).andExpect(status().isOk()).andDo(print()).andReturn();
+
     }
 
 }

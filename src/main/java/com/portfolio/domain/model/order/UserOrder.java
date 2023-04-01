@@ -37,6 +37,7 @@ public class UserOrder {
     @Column(unique = true)
     private List<OrderDetail> orderDetailList = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
     private UserOrderStatus orderStatus;
 
     private int totalPrice;

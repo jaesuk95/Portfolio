@@ -41,6 +41,25 @@ public class User {
     private int userStatus;
     private String phoneNumber;
 
+
+
+
+    public User(String username, String emailAddress, String password, ProviderType providerType, Role role) {
+        this.username = username;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.providerType = providerType;
+        this.role = role;
+    }
+
+    public User(String name, String emailAddress, String password, Role roleSet, ProviderType providerType) {
+        this.username = name;
+        this.emailAddress = emailAddress;
+        this.password = password;
+        this.role = roleSet;
+        this.providerType = providerType;
+    }
+
     public UserId getUserId() {
         return new UserId(id);
     }
