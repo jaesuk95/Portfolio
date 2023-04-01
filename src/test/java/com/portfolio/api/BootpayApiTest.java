@@ -5,9 +5,11 @@ import com.portfolio.domain.impl.BootpayServiceImpl;
 import com.portfolio.domain.model.bootpay.BootpayApiResultData;
 import com.portfolio.domain.model.order.UserOrder;
 import com.portfolio.domain.model.order.UserOrderRepository;
+import com.portfolio.domain.model.order.UserOrderStatus;
 import com.portfolio.factory.WithUser;
 import com.portfolio.utils.JsonUtils;
 import com.portfolio.web.payload.PaymentPayload;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -50,7 +52,6 @@ public class BootpayApiTest {
     @WithUser(value = "admin")
     void bootpay_api_test() throws Exception {
         String orderNumber = "2304011";
-        UserOrder userOrder = userOrderRepository.findByOrderNumberJPQL(orderNumber);
         String receiptId = "6265f5cce38c300045508c75";
 
         PaymentPayload payload = new PaymentPayload();
@@ -80,6 +81,10 @@ public class BootpayApiTest {
                 .content(JsonUtils.toJson(payload))
         ).andExpect(status().isOk()).andDo(print()).andReturn();
 
+
+        UserOrder userOrder = userOrderRepository.findByOrderNumberJPQL(orderNumber);
+        UserOrderStatus orderStatus = userOrder.getOrderStatus();
+        Assertions.assertThat(orderStatus).isEqualTo(UserOrderStatus.결제완료);
     }
 
 }
