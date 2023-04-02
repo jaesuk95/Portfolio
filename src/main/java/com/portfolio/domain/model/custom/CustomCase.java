@@ -3,6 +3,7 @@ package com.portfolio.domain.model.custom;
 import com.portfolio.domain.model.attachment.Attachment;
 import com.portfolio.domain.model.product.phonecase.PhoneCase;
 import com.portfolio.domain.model.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class CustomCase {
 
     @Id
@@ -67,6 +69,8 @@ public class CustomCase {
         this.supported = true;
         this.openly = false;
     }
+
+
 
     public void publicOpenlyDesign() {
         this.openly = true;

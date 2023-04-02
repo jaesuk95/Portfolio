@@ -1,7 +1,10 @@
 package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.AdminCustomCaseRegisterCommand;
+import com.portfolio.domain.common.CustomCaseSearchCommand;
 import com.portfolio.domain.common.UserCustomCaseRegisterCommand;
+import com.portfolio.domain.common.restpage.RestPage;
+import com.portfolio.domain.model.custom.CustomCaseData;
 import com.portfolio.domain.model.custom.CustomCaseService;
 import com.portfolio.web.payload.AdminCustomCaseRegisterPayload;
 import com.portfolio.web.payload.UserCustomCaseRegisterPayload;
@@ -9,12 +12,16 @@ import com.portfolio.web.results.ApiResult;
 import com.portfolio.web.results.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 @Controller
 @Slf4j
@@ -51,5 +58,18 @@ public class CustomCaseApiController extends AbstractBaseController {
         }
     }
 
+    @GetMapping("/api/public/custom/case")
+    public ResponseEntity<ApiResult> getPublicCustomCaseDesigns (
+             @RequestParam(required = true) boolean adminTemplate,
+             Pageable pageable,
+             HttpServletRequest request) {
+        CustomCaseSearchCommand command = CustomCaseSearchCommand.builder()
+                .isAdminTemplate(adminTemplate)
+                .pageable(pageable)
+                .build();
+        addTriggeredBy(command, request);
+        RestPage<CustomCaseData> page = customCaseService.getPublicDesigns(command);
+        return Result.ok(ApiResult.list(page));
+    }
 
 }
