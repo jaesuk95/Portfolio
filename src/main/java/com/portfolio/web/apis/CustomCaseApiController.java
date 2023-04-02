@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 
 @Controller
@@ -70,6 +71,18 @@ public class CustomCaseApiController extends AbstractBaseController {
         addTriggeredBy(command, request);
         RestPage<CustomCaseData> page = customCaseService.getPublicDesigns(command);
         return Result.ok(ApiResult.list(page));
+    }
+
+    @GetMapping("/api/custom/case/saved")
+    public ResponseEntity<ApiResult> getMyDesigns(HttpServletRequest request) {
+        try {
+            CustomCaseSearchCommand command = CustomCaseSearchCommand.builder().build();
+            addTriggeredBy(command, request);
+            List<CustomCaseData> designs = customCaseService.getMyDesigns(command);
+            return Result.ok(ApiResult.data(designs));
+        } catch (Exception e) {
+            return Result.failure(e.getMessage());
+        }
     }
 
 }

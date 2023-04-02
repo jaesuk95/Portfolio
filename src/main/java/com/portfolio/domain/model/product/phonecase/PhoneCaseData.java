@@ -1,5 +1,6 @@
 package com.portfolio.domain.model.product.phonecase;
 
+import com.portfolio.domain.model.attachment.AttachmentData;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +16,5 @@ public class PhoneCaseData {
     private String name;
     private int price;
     private String modelName;
+    private AttachmentData attachmentData;
 }

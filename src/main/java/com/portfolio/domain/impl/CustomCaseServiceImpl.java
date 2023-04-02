@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +49,10 @@ public class CustomCaseServiceImpl implements CustomCaseService {
     @Override
     public RestPage<CustomCaseData> getPublicDesigns(CustomCaseSearchCommand command) {
         return customCaseQueryDslRepository.getPublicDesigns(command);
+    }
+
+    @Override
+    public List<CustomCaseData> getMyDesigns(CustomCaseSearchCommand command) {
+        return customCaseQueryDslRepository.getMyDesigns(command.getUserId());
     }
 }
