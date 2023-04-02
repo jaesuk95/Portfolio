@@ -1,8 +1,10 @@
 package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.AdminCustomCaseRegisterCommand;
+import com.portfolio.domain.common.UserCustomCaseRegisterCommand;
 import com.portfolio.domain.model.custom.CustomCaseService;
 import com.portfolio.web.payload.AdminCustomCaseRegisterPayload;
+import com.portfolio.web.payload.UserCustomCaseRegisterPayload;
 import com.portfolio.web.results.ApiResult;
 import com.portfolio.web.results.Result;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +23,7 @@ public class CustomCaseApiController extends AbstractBaseController {
 
     private final CustomCaseService customCaseService;
 
-    @PostMapping("/api/admin/custom")
+    @PostMapping("/api/admin/custom/case")
     public ResponseEntity<ApiResult> registerCustomCase(
             @RequestBody AdminCustomCaseRegisterPayload payload,
             HttpServletRequest request) {
@@ -35,6 +37,19 @@ public class CustomCaseApiController extends AbstractBaseController {
         }
     }
 
+    @PostMapping("/api/custom/case")
+    public ResponseEntity<ApiResult> registerByUser(
+            @RequestBody UserCustomCaseRegisterPayload payload,
+            HttpServletRequest request) {
+        try {
+            UserCustomCaseRegisterCommand command = payload.toCommand();
+            addTriggeredBy(command, request);
+            Long id = customCaseService.registerByUser(command);
+            return Result.ok(String.valueOf(id));
+        } catch (Exception e) {
+            return Result.failure("실패");
+        }
+    }
 
 
 }

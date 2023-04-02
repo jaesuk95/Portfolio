@@ -1,6 +1,7 @@
 package com.portfolio.domain.impl;
 
 import com.portfolio.domain.common.AdminCustomCaseRegisterCommand;
+import com.portfolio.domain.common.UserCustomCaseRegisterCommand;
 import com.portfolio.domain.management.CustomCaseRegisterManagement;
 import com.portfolio.domain.model.custom.CustomCase;
 import com.portfolio.domain.model.custom.CustomCaseService;
@@ -29,6 +30,13 @@ public class CustomCaseServiceImpl implements CustomCaseService {
                 design_object,
                 imageId,
                 admin_id);
+
+        return customCase.getId();
+    }
+
+    @Override
+    public Long registerByUser(UserCustomCaseRegisterCommand command) {
+        CustomCase customCase = customCaseRegisterManagement.registerCustomCase(command);
 
         return customCase.getId();
     }

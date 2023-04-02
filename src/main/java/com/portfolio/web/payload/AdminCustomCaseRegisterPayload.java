@@ -8,13 +8,13 @@ import lombok.Setter;
 @Setter
 public class AdminCustomCaseRegisterPayload {
     private Long imageId;
-    private String object;
+    private String designObject;
     private Long phoneCaseId;
 
     public AdminCustomCaseRegisterCommand toCommand() {
         return AdminCustomCaseRegisterCommand.builder()
                 .imageId(this.imageId)
-                .object(this.object)
+                .object(this.designObject)
                 .phoneCaseId(this.phoneCaseId)
                 .build();
     }

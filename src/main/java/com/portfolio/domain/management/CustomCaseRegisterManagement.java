@@ -1,5 +1,6 @@
 package com.portfolio.domain.management;
 
+import com.portfolio.domain.common.UserCustomCaseRegisterCommand;
 import com.portfolio.domain.model.attachment.Attachment;
 import com.portfolio.domain.model.attachment.AttachmentRepository;
 import com.portfolio.domain.model.custom.CustomCase;
@@ -34,7 +35,28 @@ public class CustomCaseRegisterManagement {
                 phoneCase,
                 admin
         );
+        customCase.adminCreation();
+        customCase.publicOpenlyDesign();
+        customCaseRepository.save(customCase);
+        return customCase;
+    }
 
+    public CustomCase registerCustomCase(UserCustomCaseRegisterCommand command) {
+        Attachment attachment = attachmentRepository.findById(command.getImageId()).orElseThrow();
+        PhoneCase phoneCase = phoneCaseRepository.findById(command.getPhoneCaseId()).orElseThrow();
+        User user = userRepository.findById(command.getUserId().value()).orElseThrow();
+
+        CustomCase inheritCaseDesign = customCaseRepository.findById(command.getInheritDesignId()).orElseThrow();
+        CustomCase originCaseDesign = customCaseRepository.findById(command.getOriginDesignId()).orElseThrow();
+
+        CustomCase customCase = new CustomCase(
+                attachment,
+                command.getDesignObject(),
+                phoneCase,
+                user,
+                originCaseDesign,
+                inheritCaseDesign
+        );
         customCaseRepository.save(customCase);
         return customCase;
     }

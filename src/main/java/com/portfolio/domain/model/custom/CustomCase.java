@@ -49,6 +49,27 @@ public class CustomCase {
         this.object = object;
         this.phoneCase = phoneCase;
         this.creator = creator;
+        this.supported = true;
+    }
+
+    public CustomCase(Attachment designImage,
+                      String object,
+                      PhoneCase phoneCase,
+                      User creator,
+                      CustomCase originDesign,
+                      CustomCase inheritDesign) {
+        this.designImage = designImage;
+        this.object = object;
+        this.phoneCase = phoneCase;
+        this.creator = creator;
+        this.originDesign = originDesign;
+        this.inheritDesign = inheritDesign;
+        this.supported = true;
+        this.openly = false;
+    }
+
+    public void publicOpenlyDesign() {
+        this.openly = true;
     }
 
     public void adminCreation() {
