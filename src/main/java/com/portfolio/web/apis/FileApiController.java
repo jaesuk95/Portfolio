@@ -1,6 +1,7 @@
 package com.portfolio.web.apis;
 
 import com.portfolio.domain.common.AttachmentUploadCommand;
+import com.portfolio.domain.model.attachment.AttachmentData;
 import com.portfolio.domain.model.attachment.AttachmentService;
 import com.portfolio.web.results.ApiResult;
 import com.portfolio.web.results.Result;
@@ -22,12 +23,10 @@ public class FileApiController extends AbstractBaseController{
     public ResponseEntity<ApiResult> uploadFile(
             @RequestParam("file")MultipartFile file, HttpServletRequest request) {
         try {
-            String url = request.getRequestURL().toString();
-            String uri = request.getRequestURI();
             AttachmentUploadCommand command = new AttachmentUploadCommand(file);
             addTriggeredBy(command, request);
-            attachmentService.uploadFile(command);
-            return null;
+            AttachmentData attachmentData = attachmentService.uploadFile(command);
+            return Result.ok(ApiResult.data(attachmentData));
         } catch (Exception e) {
             return Result.failure(e.getMessage());
         }

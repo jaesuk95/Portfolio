@@ -5,5 +5,5 @@ import com.portfolio.domain.common.AttachmentUploadCommand;
 import java.io.IOException;
 
 public interface AttachmentService {
-    void uploadFile(AttachmentUploadCommand command) throws IOException;
+    AttachmentData uploadFile(AttachmentUploadCommand command) throws IOException;
 }

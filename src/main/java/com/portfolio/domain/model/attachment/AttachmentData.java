@@ -14,4 +14,5 @@ public class AttachmentData {
     private String filePath;
     private String fileName;
     private String publicUrl;
+    private String fileType;
 }

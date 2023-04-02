@@ -2,6 +2,7 @@ package com.portfolio.domain.impl;
 
 import com.portfolio.domain.common.AttachmentUploadCommand;
 import com.portfolio.domain.model.attachment.Attachment;
+import com.portfolio.domain.model.attachment.AttachmentData;
 import com.portfolio.domain.model.attachment.AttachmentRepository;
 import com.portfolio.domain.model.attachment.AttachmentService;
 import com.portfolio.infrastructure.file.local.FileStorage;
@@ -34,7 +35,7 @@ public class AttachmentServiceImpl implements AttachmentService {
     private final AttachmentRepository attachmentRepository;
 
     @Override
-    public void uploadFile(AttachmentUploadCommand command) throws IOException {
+    public AttachmentData uploadFile(AttachmentUploadCommand command) throws IOException {
 
         MultipartFile file = command.getFile();
 
@@ -109,6 +110,12 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         attachmentRepository.save(attachment);
 
+        return AttachmentData.builder()
+                .id(attachment.getId())
+                .filePath(filePath)
+                .publicUrl(publicUrl)
+                .fileType(fileType)
+                .build();
     }
 
     private String createDirectory(String directoryPath, String unique_fileName, Path targetLocation) {
