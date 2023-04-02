@@ -38,4 +38,22 @@ public class CustomCase {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "INHERIT_CUSTOM_CASE_ID")
     private CustomCase inheritDesign;
+
+    private boolean adminTemplate;
+
+    public CustomCase(Attachment designImage,
+                      String object,
+                      PhoneCase phoneCase,
+                      User creator) {
+        this.designImage = designImage;
+        this.object = object;
+        this.phoneCase = phoneCase;
+        this.creator = creator;
+    }
+
+    public void adminCreation() {
+        this.adminTemplate = true;
+        this.originDesign = this;
+        this.inheritDesign = this;
+    }
 }
