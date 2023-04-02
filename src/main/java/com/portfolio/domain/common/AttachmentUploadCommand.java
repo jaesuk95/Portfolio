@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-public class AttachmentUploadCommand extends UserCommand{
+public class AttachmentUploadCommand extends AnonymousCommand{
     private final MultipartFile file;
 
     public AttachmentUploadCommand(MultipartFile file) {

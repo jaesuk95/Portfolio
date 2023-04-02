@@ -12,11 +12,18 @@ public class AppProperties {
 
     private final Email email = new Email();
     private final Auth auth = new Auth();
+    private final Server server = new Server();
 
     @Getter
     @Setter
     public static class Email {
         private String verification_link;
+    }
+
+    @Getter
+    @Setter
+    public static class Server {
+        private String home;
     }
 
     @Getter
