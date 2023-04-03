@@ -57,13 +57,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         String osName = System.getProperty("os.name");
         String filePath;
-        String publicUrl = server + "/file/" + uuid + "-" + uploadFileName;
+        String publicUrl = server + "/file/" + yyMMdd + "/" + uuid + "-" + uploadFileName;
 
-        // "http://192.168.64.2/file/d6eb20fb-9644-4f5a-bcd1-44d535496ef2-dogecoin.png",
+        // http://192.168.64.2/file/d6eb20fb-9644-4f5a-bcd1-44d535496ef2-dogecoin.png,
+        // http://192.168.64.2/file/230403/540afc32-72d1-48d8-982e-e1348dc08072-dogecoin.png
 
         if (osName.startsWith("Mac")) {
             // Code for Mac
-            String directoryPath = "/Users/jaesuk/file/" + yyMMdd;
+            String directoryPath = "/Users/jaesuk/file/" + yyMMdd + "/";
             // Create a Path object from the directory path
             Path targetLocation = Paths.get(directoryPath);
             filePath = createDirectory(directoryPath, unique_fileName, targetLocation);
@@ -81,7 +82,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         } else if (osName.startsWith("Linux")) {
             log.info("Under Linux OS");
             // Code for Ubuntu
-            String directoryPath = "/home/central/file/" + yyMMdd;
+            String directoryPath = "/home/central/file/" + yyMMdd + "/";
             // Create a Path object from the directory path
             Path targetLocation = Paths.get(directoryPath);
             filePath = createDirectory(directoryPath, unique_fileName, targetLocation);
