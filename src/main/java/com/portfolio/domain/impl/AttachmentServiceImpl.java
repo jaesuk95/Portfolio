@@ -77,6 +77,7 @@ public class AttachmentServiceImpl implements AttachmentService {
             }
 
         } else if (osName.startsWith("Linux")) {
+            log.info("Under Linux OS");
             // Code for Ubuntu
             String directoryPath = "/home/central/file/" + yyMMdd + "/";
             // Create a Path object from the directory path
@@ -86,11 +87,13 @@ public class AttachmentServiceImpl implements AttachmentService {
             try {
                 byte[] data = file.getBytes();
                 saveFile(data, directoryPath, unique_fileName);
+
+                Files.write(Path.of(filePath), data);
+
                 log.info("Filed uploaded successfully");
             } catch (IOException e) {
                 log.error(e.getMessage());
             }
-
 //            try {
 ////                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 //                Path dest_filePath = Paths.get(directoryPath, unique_fileName);
@@ -100,6 +103,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 //            } catch (IOException e) {
 //                throw new IllegalArgumentException("Multipart file '" + targetLocation.toString() + "' 에 저장 실패 했습니다.", e);
 //            }
+
         } else {
             // Unsupported operating system
             throw new RuntimeException("Unsupported operating system: " + osName);
