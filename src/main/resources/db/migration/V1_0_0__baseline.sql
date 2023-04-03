@@ -23,6 +23,22 @@ create table attachment
     thumbnail_created bit          not null
 );
 
+create table material
+(
+    id            bigint auto_increment
+        primary key,
+    material_name varchar(255) null,
+    surface_name  varchar(255) null
+);
+
+create table options
+(
+    id          bigint auto_increment
+        primary key,
+    option_type varchar(255) null,
+    value       varchar(255) null
+);
+
 create table product_category
 (
     id            bigint auto_increment
@@ -38,11 +54,22 @@ create table product
     model_name  varchar(255) null,
     name        varchar(255) null,
     price       int          not null,
-    phone_type  varchar(255) null,
-    sale        bit          null,
+    material_id bigint       null,
     category_id bigint       null,
     constraint FK5cypb0k23bovo3rn1a5jqs6j4
-        foreign key (category_id) references product_category (id)
+        foreign key (category_id) references product_category (id),
+    constraint FKw04fq456sc4tk26tnbhvr59o
+        foreign key (material_id) references material (id)
+);
+
+create table phone_case
+(
+    phone_type varchar(255) null,
+    sale       bit          not null,
+    id         bigint       not null
+        primary key,
+    constraint FKmxh2y67ro19jaux2efhsxjan1
+        foreign key (id) references product (id)
 );
 
 create table user
@@ -74,6 +101,31 @@ create table address
     user_id         bigint       null,
     constraint FKda8tuywtf0gb6sedwk7la1pgi
         foreign key (user_id) references user (user_id)
+);
+
+create table custom_case
+(
+    id                     bigint auto_increment
+        primary key,
+    object                 longtext null,
+    openly                 bit      not null,
+    supported              bit      not null,
+    creator_user_id        bigint   null,
+    design_image_id        bigint   null,
+    inherit_custom_case_id bigint   null,
+    origin_custom_case_id  bigint   null,
+    phone_case_id          bigint   null,
+    admin_template         bit      not null,
+    constraint FK5hmb3u11lsslilmnd0q56tank
+        foreign key (design_image_id) references attachment (id),
+    constraint FK7e1lu20ynxleav8ump9p4iftg
+        foreign key (origin_custom_case_id) references custom_case (id),
+    constraint FK7lipp85fcsjq5me5m3me0oefl
+        foreign key (phone_case_id) references phone_case (id),
+    constraint FK87as7pvkbsyld31wdsf0vgvjd
+        foreign key (creator_user_id) references user (user_id),
+    constraint FKhauiam77i7x7fhqjlv57ve8j5
+        foreign key (inherit_custom_case_id) references custom_case (id)
 );
 
 create table email_confirmation
@@ -110,7 +162,7 @@ create table user_order
     method              varchar(255) null,
     method_name         varchar(255) null,
     order_number        varchar(255) null,
-    order_status        int          null,
+    order_status        varchar(255) null,
     pg                  varchar(255) null,
     pg_name             varchar(255) null,
     purchased_at        varchar(255) null,
