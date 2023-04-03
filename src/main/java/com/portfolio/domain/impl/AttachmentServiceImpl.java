@@ -57,7 +57,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
         String osName = System.getProperty("os.name");
         String filePath;
-        String publicUrl = server + "/" + uuid + "-" + uploadFileName;
+        String publicUrl = server + "/file/" + uuid + "-" + uploadFileName;
 
         if (osName.startsWith("Mac")) {
             // Code for Mac
