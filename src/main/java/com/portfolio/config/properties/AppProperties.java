@@ -23,6 +23,7 @@ public class AppProperties {
     @Getter
     @Setter
     public static class Server {
+        private String spring_home;
         private String home;
     }
 

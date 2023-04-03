@@ -59,6 +59,8 @@ public class AttachmentServiceImpl implements AttachmentService {
         String filePath;
         String publicUrl = server + "/file/" + uuid + "-" + uploadFileName;
 
+        // "http://192.168.64.2/file/d6eb20fb-9644-4f5a-bcd1-44d535496ef2-dogecoin.png",
+
         if (osName.startsWith("Mac")) {
             // Code for Mac
             String directoryPath = "/Users/jaesuk/file/" + yyMMdd;
