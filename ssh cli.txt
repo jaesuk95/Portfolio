@@ -1,10 +1,8 @@
-docker run -p 8080:8080 -v /home/user/file:/data my-image
-
 echo $1
 docker stop spring
 docker rm spring
 
-docker login -u jaesuk95 -p 87swanson@
+docker login -u jaesuk95 -p ps
 
 docker pull jaesuk95/portfolio:$1
 
@@ -12,3 +10,10 @@ docker run -d --name=spring -v /home/central/app/spring:/home/central/app/spring
 
 # volume 으로 해결하자 (이미지가 도커 컨테이너로 저장된다 - 굳이 컨테이너에 저장할 필요는 없지만 간단하다)
 docker run -d --name=spring -v /home/central/app/spring:/home/central/app/spring -v /home/central/file:/home/central/file -p 8081:8081 jaesuk95/portfolio:$1
+
+
+
+
+
+
+sudo timedatectl set-timezone Asia/Seoul
