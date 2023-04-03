@@ -76,7 +76,7 @@ public class AttachmentServiceImpl implements AttachmentService {
                 throw new IllegalArgumentException("Multipart file '" + targetLocation.toString() + "' 에 저장 실패 했습니다.", e);
             }
 
-        } else if (osName.startsWith("Ubuntu")) {
+        } else if (osName.startsWith("Linux")) {
             // Code for Ubuntu
             String directoryPath = "/home/central/file/" + yyMMdd + "/";
             // Create a Path object from the directory path
