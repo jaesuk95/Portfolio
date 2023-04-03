@@ -84,14 +84,22 @@ public class AttachmentServiceImpl implements AttachmentService {
             filePath = createDirectory(directoryPath, unique_fileName, targetLocation);
 
             try {
-//                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-                Path dest_filePath = Paths.get(directoryPath, unique_fileName);
-                File dest = new File(dest_filePath.toString());
-                file.transferTo(dest);
-
+                byte[] data = file.getBytes();
+                saveFile(data, directoryPath, unique_fileName);
+                log.info("Filed uploaded successfully");
             } catch (IOException e) {
-                throw new IllegalArgumentException("Multipart file '" + targetLocation.toString() + "' 에 저장 실패 했습니다.", e);
+                log.error(e.getMessage());
             }
+
+//            try {
+////                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+//                Path dest_filePath = Paths.get(directoryPath, unique_fileName);
+//                File dest = new File(dest_filePath.toString());
+//                file.transferTo(dest);
+//
+//            } catch (IOException e) {
+//                throw new IllegalArgumentException("Multipart file '" + targetLocation.toString() + "' 에 저장 실패 했습니다.", e);
+//            }
         } else {
             // Unsupported operating system
             throw new RuntimeException("Unsupported operating system: " + osName);
@@ -116,6 +124,11 @@ public class AttachmentServiceImpl implements AttachmentService {
                 .publicUrl(publicUrl)
                 .fileType(fileType)
                 .build();
+    }
+
+    public void saveFile(byte[] data, String directoryPath, String uniqueFileName) throws IOException {
+        Path filePath = Paths.get(directoryPath, uniqueFileName);
+        Files.write(filePath, data);
     }
 
     private String createDirectory(String directoryPath, String unique_fileName, Path targetLocation) {
