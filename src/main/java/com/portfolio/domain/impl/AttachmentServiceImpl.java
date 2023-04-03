@@ -127,6 +127,10 @@ public class AttachmentServiceImpl implements AttachmentService {
     }
 
     public void saveFile(byte[] data, String directoryPath, String uniqueFileName) throws IOException {
+
+        log.info("Data length: " + data.length);
+        log.info("Data contents: " + new String(data));
+
         Path filePath = Paths.get(directoryPath, uniqueFileName);
         Files.write(filePath, data);
     }

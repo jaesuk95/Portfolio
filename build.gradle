@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.portfolio'
-version = '0.0.20'
+version = '0.0.21'
 targetCompatibility = '11'
 
 configurations {
