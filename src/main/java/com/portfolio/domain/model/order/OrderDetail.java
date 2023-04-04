@@ -68,4 +68,9 @@ public class OrderDetail {
     public void updateDetailStatus(UserOrderStatus detailStatus) {
         this.detailStatus = detailStatus;
     }
+
+    public void createSimpleDetailNumber() {
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+        this.orderDetailNumber = "P" + id;
+    }
 }

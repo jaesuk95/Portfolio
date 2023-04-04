@@ -17,4 +17,8 @@ public class Material {
     private String materialName;
     private String surfaceName;
 
+    public Material(String materialName, String surfaceName) {
+        this.materialName = materialName;
+        this.surfaceName = surfaceName;
+    }
 }

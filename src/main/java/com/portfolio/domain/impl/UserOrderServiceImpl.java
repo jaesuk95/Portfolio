@@ -57,7 +57,8 @@ public class UserOrderServiceImpl implements UserOrderService {
                     detail.getPrice()
             );
             orderDetailRepository.save(orderDetail);
-            orderDetail.createOrderDetailNumber();
+//            orderDetail.createOrderDetailNumber();
+            orderDetail.createSimpleDetailNumber();
             orderDetails.add(orderDetail);
         }
 

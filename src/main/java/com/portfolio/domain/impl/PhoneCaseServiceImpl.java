@@ -45,7 +45,7 @@ public class PhoneCaseServiceImpl implements PhoneCaseService {
 
         String name = command.getName();
 
-        String type = command.getPhoneType().toLowerCase();
+        String type = command.getPhoneType().toUpperCase();
         PhoneType phoneType = PhoneType.valueOf(type);
 
         Long materialId = command.getMaterialId();
