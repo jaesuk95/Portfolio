@@ -14,4 +14,5 @@ public class PhoneCaseRegisterCommand extends UserCommand{
     private Long imageId;
     private int price;
     private String phoneType;
+    private Long materialId;
 }

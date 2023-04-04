@@ -14,6 +14,7 @@ public class PhoneCaseRegisterPayload {
     private int price;
 //    private List<String> phoneType;
     private String phoneType;
+    private Long materialId;
 
     public PhoneCaseRegisterCommand toCommand() {
         return PhoneCaseRegisterCommand.builder()
@@ -21,6 +22,7 @@ public class PhoneCaseRegisterPayload {
                 .name(this.name)
                 .imageId(this.imageId)
                 .price(this.price)
+                .materialId(this.materialId)
                 .build();
     }
 }

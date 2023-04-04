@@ -1,5 +1,7 @@
 package com.portfolio.domain.model.product.phonecase;
 
+import com.portfolio.domain.model.attachment.Attachment;
+import com.portfolio.domain.model.material.Material;
 import com.portfolio.domain.model.product.Product;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,10 +21,13 @@ public class PhoneCase extends Product {
     private PhoneType phoneType;
     private boolean sale;
 
-
     @Builder
-    public PhoneCase(String name, int price, PhoneType phoneType) {
-        super(name,price);
+    public PhoneCase(String name,
+                     int price,
+                     PhoneType phoneType,
+                     Material material,
+                     Attachment attachment) {
+        super(name,price,material,attachment);
         this.phoneType = phoneType;
         this.sale = false;
     }

@@ -5,6 +5,10 @@ import com.portfolio.domain.common.PhoneCaseSearchCommand;
 import com.portfolio.domain.common.ProductSearchCommand;
 import com.portfolio.domain.common.response.SimpleResponseData;
 import com.portfolio.domain.common.restpage.RestPage;
+import com.portfolio.domain.model.attachment.Attachment;
+import com.portfolio.domain.model.attachment.AttachmentRepository;
+import com.portfolio.domain.model.material.Material;
+import com.portfolio.domain.model.material.MaterialRepository;
 import com.portfolio.domain.model.product.phonecase.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,10 +28,12 @@ public class PhoneCaseServiceImpl implements PhoneCaseService {
 
     private final PhoneCaseQueryDslRepository phoneCaseQueryDslRepository;
     private final PhoneCaseRepository phoneCaseRepository;
+    private final MaterialRepository materialRepository;
+    private final AttachmentRepository attachmentRepository;
 
     @Cacheable(value = "PHONE_CASE:CACHE:PUBLIC",
-        key = "'PAGE' + #command.pageable.pageNumber.toString()",
-        cacheManager = "publicRedisCacheManager")
+            key = "'PAGE' + #command.pageable.pageNumber.toString()",
+            cacheManager = "publicRedisCacheManager")
     @Override
     public RestPage<PhoneCaseData> findAll(ProductSearchCommand command) {
         return phoneCaseQueryDslRepository.findAll(command.getPageable(), command.getType());
@@ -35,22 +41,26 @@ public class PhoneCaseServiceImpl implements PhoneCaseService {
 
     @Override
     public Long registerByAdmin(PhoneCaseRegisterCommand command) {
-        // image 앞으로 추가될 예정
-        Long imageId = command.getImageId();
         int price = command.getPrice();
 
-        // 상품 이름 중보확인
         String name = command.getName();
 
-
-
         String type = command.getPhoneType().toLowerCase();
-
         PhoneType phoneType = PhoneType.valueOf(type);
 
-        PhoneCase phoneCase = new PhoneCase(name, price, phoneType);
-        phoneCaseRepository.save(phoneCase);
+        Long materialId = command.getMaterialId();
+        Material material = materialRepository.findById(materialId).orElseThrow();
+        Attachment attachment = attachmentRepository.findById(command.getImageId()).orElseThrow();
 
+        PhoneCase phoneCase = new PhoneCase(
+                name,
+                price,
+                phoneType,
+                material,
+                attachment
+        );
+
+        phoneCaseRepository.save(phoneCase);
         phoneCase.setModelName(phoneCase.getId());
 
         log.info("New Phone-case has been registered case id = {}", phoneCase.getId());

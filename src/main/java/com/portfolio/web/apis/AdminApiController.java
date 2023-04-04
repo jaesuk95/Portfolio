@@ -1,9 +1,12 @@
 package com.portfolio.web.apis;
 
+import com.portfolio.domain.common.AdminCustomCaseRegisterCommand;
 import com.portfolio.domain.common.PhoneCaseRegisterCommand;
 import com.portfolio.domain.common.PhoneCaseSearchCommand;
 import com.portfolio.domain.common.response.SimpleResponseData;
+import com.portfolio.domain.model.custom.CustomCaseService;
 import com.portfolio.domain.model.product.phonecase.PhoneCaseService;
+import com.portfolio.web.payload.AdminCustomCaseRegisterPayload;
 import com.portfolio.web.payload.PhoneCaseRegisterPayload;
 import com.portfolio.web.results.ApiResult;
 import com.portfolio.web.results.Result;
@@ -23,6 +26,21 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminApiController extends AbstractBaseController {
 
     private final PhoneCaseService phoneCaseService;
+    private final CustomCaseService customCaseService;
+
+    @PostMapping("/api/admin/custom/case")
+    public ResponseEntity<ApiResult> registerCustomCase(
+            @RequestBody AdminCustomCaseRegisterPayload payload,
+            HttpServletRequest request) {
+        try {
+            AdminCustomCaseRegisterCommand command = payload.toCommand();
+            addTriggeredBy(command, request);
+            Long id = customCaseService.registerByAdmin(command);
+            return Result.ok(String.valueOf(id));
+        } catch (Exception e) {
+            return Result.failure("실패");
+        }
+    }
 
     // 어드민 케이스 탬플릿 등록
     @PostMapping("/api/admin/case")

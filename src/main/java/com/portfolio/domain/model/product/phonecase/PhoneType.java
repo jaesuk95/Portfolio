@@ -4,9 +4,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum PhoneType {
 
-    APPLE("apple"),
-    GALAXY("galaxy"),
-    ONEPLUS("onePlus");
+    APPLE("Apple"),
+    GALAXY("Galaxy"),
+    NOTHING("Nothing"),
+    ONEPLUS("OnePlus");
 
     private final String name;
 

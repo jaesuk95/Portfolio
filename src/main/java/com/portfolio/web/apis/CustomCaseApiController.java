@@ -31,20 +31,6 @@ public class CustomCaseApiController extends AbstractBaseController {
 
     private final CustomCaseService customCaseService;
 
-    @PostMapping("/api/admin/custom/case")
-    public ResponseEntity<ApiResult> registerCustomCase(
-            @RequestBody AdminCustomCaseRegisterPayload payload,
-            HttpServletRequest request) {
-        try {
-            AdminCustomCaseRegisterCommand command = payload.toCommand();
-            addTriggeredBy(command, request);
-            Long id = customCaseService.registerByAdmin(command);
-            return Result.ok(String.valueOf(id));
-        } catch (Exception e) {
-            return Result.failure("실패");
-        }
-    }
-
     @PostMapping("/api/custom/case")
     public ResponseEntity<ApiResult> registerByUser(
             @RequestBody UserCustomCaseRegisterPayload payload,
