@@ -12,7 +12,8 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "TYPE",
+        discriminatorType = DiscriminatorType.STRING)
 @NoArgsConstructor
 public class Product {
 
@@ -31,7 +32,7 @@ public class Product {
     @JoinColumn(name = "CATEGORY_ID")
     private ProductCategory productCategory;
 
-    @OneToOne(cascade = CascadeType.ALL)    // <- cascade 추가 이유: dbInit 에서 pendant image 생성해줄 때 필요하다.
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "IMAGE_ID")
     private Attachment attachment;
 
