@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class UserOrderRegisterCommand extends AnonymousCommand{
+public class UserOrderRegisterCommand extends UserCommand{
     private int totalPrice;
     private List<UserOrderRegisterPayload.OrderDetailPayload> detailCommands;
 }

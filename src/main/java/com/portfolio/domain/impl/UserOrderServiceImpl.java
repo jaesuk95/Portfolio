@@ -19,6 +19,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         List<UserOrderRegisterPayload.OrderDetailPayload> orderDetailList = command.getDetailCommands();
 
         List<OrderDetail> orderDetails = new ArrayList<>();
+        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
 
         for (UserOrderRegisterPayload.OrderDetailPayload detail : orderDetailList) {
 
@@ -58,17 +61,21 @@ public class UserOrderServiceImpl implements UserOrderService {
             );
             orderDetailRepository.save(orderDetail);
 //            orderDetail.createOrderDetailNumber();
-            orderDetail.createSimpleDetailNumber();
+            orderDetail.setOrderDetailNumber(date + orderDetail.getId());
+            orderDetailRepository.flush();
             orderDetails.add(orderDetail);
         }
 
-        Long userId = command.getUserId();
+        Long userId = command.getUserId().value();
         User user = userRepository.findById(userId).orElseThrow();
 
         UserOrder userOrder = new UserOrder(user,orderDetails, command.getTotalPrice());
         userOrderRepository.save(userOrder);
 
-        userOrder.createUserOrderNumber();
+//        userOrder.createUserOrderNumber(date);
+        String newOrderNumber = date + userOrder.getId();
+        userOrder.setOrderNumber(newOrderNumber);
+        userOrderRepository.flush();
         return userOrder.getOrderNumber();
     }
 

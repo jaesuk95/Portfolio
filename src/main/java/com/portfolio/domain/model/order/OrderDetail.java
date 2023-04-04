@@ -43,6 +43,10 @@ public class OrderDetail {
     private int quantity;
     private int productPrice;
 
+    public void setOrderDetailNumber(String orderDetailNumber) {
+        this.orderDetailNumber = orderDetailNumber;
+    }
+
     public OrderDetail(Product product, Address address, String optionJson, int price) {
         this.product = product;
         this.address = address;

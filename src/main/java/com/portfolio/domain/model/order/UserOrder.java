@@ -69,9 +69,12 @@ public class UserOrder {
         this.totalPrice = totalPrice;
     }
 
-    public void createUserOrderNumber() {
-        String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
+    public void createUserOrderNumber(String date) {
         this.orderNumber = date + id;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
     public void setBootPayResults(String receipt_url,

@@ -61,7 +61,7 @@ public class BootpayApiTest {
         BootpayApiResultData bootpayApiResultData = new BootpayApiResultData(
                 "https://app.bootpay.co.kr/bill/Q240ZFlZcFVW",
                 orderNumber,
-                5000,
+                3000,
                 0,
                 "inicis",
                 "이니시스",
