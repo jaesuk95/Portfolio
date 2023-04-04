@@ -62,10 +62,11 @@ public class UserOrder {
     private String revoked_at;      // 결제가 취소된 시각 ( 한국 기준시 +09:00 )
     private Long status;             // 결제 상태, 현재 결제의 상태를 나타냅니다.
 
-    public UserOrder(User user, List<OrderDetail> orderDetailList) {
+    public UserOrder(User user, List<OrderDetail> orderDetailList, int totalPrice) {
         this.user = user;
         this.orderDetailList = orderDetailList;
         this.orderStatus = UserOrderStatus.미결제;
+        this.totalPrice = totalPrice;
     }
 
     public void createUserOrderNumber() {

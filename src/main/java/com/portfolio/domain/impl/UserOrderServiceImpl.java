@@ -53,7 +53,8 @@ public class UserOrderServiceImpl implements UserOrderService {
             OrderDetail orderDetail = new OrderDetail(
                     phoneCase,
                     address,
-                    optionJson
+                    optionJson,
+                    detail.getPrice()
             );
             orderDetailRepository.save(orderDetail);
             orderDetail.createOrderDetailNumber();
@@ -63,7 +64,7 @@ public class UserOrderServiceImpl implements UserOrderService {
         Long userId = command.getUserId();
         User user = userRepository.findById(userId).orElseThrow();
 
-        UserOrder userOrder = new UserOrder(user,orderDetails);
+        UserOrder userOrder = new UserOrder(user,orderDetails, command.getTotalPrice());
         userOrderRepository.save(userOrder);
 
         userOrder.createUserOrderNumber();

@@ -43,11 +43,12 @@ public class OrderDetail {
     private int quantity;
     private int productPrice;
 
-    public OrderDetail(Product product, Address address, String optionJson) {
+    public OrderDetail(Product product, Address address, String optionJson, int price) {
         this.product = product;
         this.address = address;
         this.optionJson = optionJson;
         this.detailStatus = UserOrderStatus.미결제;
+        this.productPrice = price;
     }
 
     public void createOrderDetailNumber() {

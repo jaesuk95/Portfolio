@@ -12,10 +12,12 @@ import java.util.List;
 @Setter
 public class UserOrderRegisterPayload {
 
+    private int totalPrice;
     private List<OrderDetailPayload> orderDetailPayloads = new ArrayList<>();
 
     @Data
     public static class OrderDetailPayload {
+        private int price;
         private Long productId;
         private Long addressId;
         private String optionJson;
@@ -23,6 +25,7 @@ public class UserOrderRegisterPayload {
 
     public UserOrderRegisterCommand toCommand() {
         return UserOrderRegisterCommand.builder()
+                .totalPrice(this.totalPrice)
                 .detailCommands(this.orderDetailPayloads)
                 .build();
     }

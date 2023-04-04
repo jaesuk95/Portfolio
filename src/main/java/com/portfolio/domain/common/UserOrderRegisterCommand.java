@@ -9,5 +9,6 @@ import java.util.List;
 @Getter
 @Builder
 public class UserOrderRegisterCommand extends AnonymousCommand{
+    private int totalPrice;
     private List<UserOrderRegisterPayload.OrderDetailPayload> detailCommands;
 }

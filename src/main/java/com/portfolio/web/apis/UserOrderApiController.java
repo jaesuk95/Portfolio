@@ -27,7 +27,7 @@ public class UserOrderApiController extends AbstractBaseController {
 
     private final UserOrderService userOrderService;
 
-    @PostMapping("/api/public/order")
+    @PostMapping("/api/order")
     public ResponseEntity<ApiResult> userOrder(
             @RequestBody UserOrderRegisterPayload payload,
             HttpServletRequest request) {
@@ -40,8 +40,6 @@ public class UserOrderApiController extends AbstractBaseController {
             return Result.failure(e.getMessage());
         }
     }
-
-    // bootpay 테스트 코드 추가 예정
     @PostMapping("/api/order/payment")
     public ResponseEntity<ApiResult> payment(
             @RequestBody PaymentPayload payload, HttpServletRequest request) {
@@ -54,7 +52,6 @@ public class UserOrderApiController extends AbstractBaseController {
             return Result.failure(e.getMessage());
         }
     }
-
     @PostMapping("/api/order/payment/cancel")
     public ResponseEntity<ApiResult> cancelPayment (
             @RequestBody PaymentPayload payload, HttpServletRequest request) {

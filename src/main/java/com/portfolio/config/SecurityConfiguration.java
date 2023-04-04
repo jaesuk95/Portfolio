@@ -43,9 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    public static final String[] PUBLIC = new String[]{
-            "/api/public/**",
-            "/api/auth/**"};
+
 
     /*
      * UserDetailsService 설정
@@ -55,6 +53,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
+    public static final String[] PUBLIC = new String[]{
+            "/api/public/**",
+            "/api/auth/**"};
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -75,12 +77,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUBLIC).permitAll()
                 .antMatchers("/api/**").hasAnyAuthority("ROLE_USER")
                 .anyRequest().authenticated()
-
-                // 시큐리티는 기본적으로 세션을 사용
-                // 여기서는 세션을 사용하지 않기 때문에 세션 설정을 Stateless 로 설정
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
