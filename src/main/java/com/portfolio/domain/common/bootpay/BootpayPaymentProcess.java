@@ -1,12 +1,13 @@
 package com.portfolio.domain.common.bootpay;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.portfolio.domain.common.BootpayRegisterCommand;
 import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.model.bootpay.BootpayApiResultData;
 import com.portfolio.domain.model.bootpay.BootpayService;
 import com.portfolio.domain.model.order.UserOrder;
-import com.portfolio.domain.model.order.UserOrderRepository;
 import com.portfolio.domain.model.order.UserOrderStatus;
+import com.portfolio.domain.model.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -48,5 +49,9 @@ public class BootpayPaymentProcess {
 
     public void cancelOrder(UserOrder userOrder, PaymentCommand command) throws JsonProcessingException {
         bootpayService.bootpayCancel(userOrder, command);
+    }
+
+    public void requestBillingKey(BootpayRegisterCommand command, User user) {
+        bootpayService.requestBillingKey(command,user);
     }
 }

@@ -3,13 +3,16 @@ package com.portfolio.domain.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.portfolio.domain.common.BootpayRegisterCommand;
 import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.model.bootpay.BootpayApiResultData;
 import com.portfolio.domain.model.bootpay.BootpayGateway;
 import com.portfolio.domain.model.bootpay.BootpayService;
 import com.portfolio.domain.model.order.UserOrder;
+import com.portfolio.domain.model.user.User;
 import kr.co.bootpay.Bootpay;
 import kr.co.bootpay.model.request.Cancel;
+import kr.co.bootpay.model.request.Subscribe;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -75,6 +78,37 @@ public class BootpayServiceImpl implements BootpayService {
                     bootpayResult.getCancelled_at(),
                     (long) bootpayResult.getStatus()
             );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void requestBillingKey(BootpayRegisterCommand command, User local_user) {
+        Bootpay bootpay = bootpayGateway.getBootpay();
+        bootpay.setToken(bootpayGateway.getToken());
+
+        Subscribe subscribe = new Subscribe();
+        subscribe.orderName = command.getOrderNumber();
+        subscribe.subscriptionId = "" + (System.currentTimeMillis() / 1000);
+        subscribe.pg = "payapp";
+        subscribe.cardNo = "557011111111074"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+        subscribe.cardPw = "1234"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+        subscribe.cardExpireYear = "25"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+        subscribe.cardExpireMonth = "11"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+        subscribe.cardIdentityNo = "19951127"; //생년월일 또는 사업자 등록번호 (- 없이 입력)
+
+        subscribe.user = new kr.co.bootpay.model.request.User();
+        subscribe.user.username = local_user.getUsername();
+        subscribe.user.phone = "01096574511";
+
+        try {
+            HashMap<String, Object> res = bootpay.getBillingKey(subscribe);
+            if(res.get("error_code") == null) { //success
+                System.out.println("getBillingKey success: " + res);
+            } else {
+                System.out.println("getBillingKey false: " + res);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

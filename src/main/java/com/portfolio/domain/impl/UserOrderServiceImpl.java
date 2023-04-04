@@ -1,6 +1,7 @@
 package com.portfolio.domain.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.portfolio.domain.common.BootpayRegisterCommand;
 import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.common.UserOrderRegisterCommand;
 import com.portfolio.domain.common.bootpay.BootpayPaymentProcess;
@@ -100,6 +101,11 @@ public class UserOrderServiceImpl implements UserOrderService {
         return resultData;
     }
 
+    @Override
+    public void registerBootpayPayment(BootpayRegisterCommand command) {
+        User user = userRepository.findById(command.getUserId().value()).orElseThrow();
+        bootpayPaymentProcess.requestBillingKey(command,user);
+    }
 
 }
 

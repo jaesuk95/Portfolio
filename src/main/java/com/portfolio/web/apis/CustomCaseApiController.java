@@ -64,13 +64,17 @@ public class CustomCaseApiController extends AbstractBaseController {
              @RequestParam(required = true) boolean adminTemplate,
              Pageable pageable,
              HttpServletRequest request) {
-        CustomCaseSearchCommand command = CustomCaseSearchCommand.builder()
-                .isAdminTemplate(adminTemplate)
-                .pageable(pageable)
-                .build();
-        addTriggeredBy(command, request);
-        RestPage<CustomCaseData> page = customCaseService.getPublicDesigns(command);
-        return Result.ok(ApiResult.list(page));
+        try {
+            CustomCaseSearchCommand command = CustomCaseSearchCommand.builder()
+                    .isAdminTemplate(adminTemplate)
+                    .pageable(pageable)
+                    .build();
+            addTriggeredBy(command, request);
+            RestPage<CustomCaseData> page = customCaseService.getPublicDesigns(command);
+            return Result.ok(ApiResult.list(page));
+        } catch (Exception e) {
+            return Result.failure(e.getMessage());
+        }
     }
 
     @GetMapping("/api/custom/case/saved")

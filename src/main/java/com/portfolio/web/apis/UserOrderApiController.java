@@ -1,9 +1,11 @@
 package com.portfolio.web.apis;
 
+import com.portfolio.domain.common.BootpayRegisterCommand;
 import com.portfolio.domain.common.PaymentCommand;
 import com.portfolio.domain.common.UserOrderRegisterCommand;
 import com.portfolio.domain.model.bootpay.PaymentResultData;
 import com.portfolio.domain.model.order.UserOrderService;
+import com.portfolio.web.payload.BootpayRegisterPayload;
 import com.portfolio.web.payload.PaymentPayload;
 import com.portfolio.web.payload.UserOrderRegisterPayload;
 import com.portfolio.web.results.ApiResult;
@@ -70,4 +72,21 @@ public class UserOrderApiController extends AbstractBaseController {
     public ResponseEntity<ApiResult> bootpayWebhook(HttpServletRequest request) {
         return null;
     }
+
+
+
+    // 호기심으로 해봄
+    @PostMapping("/api/order/bootpay/billing-key")
+    public ResponseEntity<ApiResult> bootpayRegisterBillingKey(
+            @RequestBody BootpayRegisterPayload payload, HttpServletRequest request) {
+        try {
+            BootpayRegisterCommand command = payload.toCommand();
+            addTriggeredBy(command, request);
+            userOrderService.registerBootpayPayment(command);
+            return Result.ok();
+        } catch (Exception e) {
+            return Result.failure(e.getMessage());
+        }
+    }
+
 }
