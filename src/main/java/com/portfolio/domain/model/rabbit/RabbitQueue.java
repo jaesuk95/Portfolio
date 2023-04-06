@@ -6,6 +6,8 @@ public enum RabbitQueue {
     USER_REGISTER("register"),      // 회원가입
     QR_EMAIL("qrEmail"),
     ORDER("order"),
+    ALIM_MESSAGE("alimMessage"),
+    ALERT_KAKAO("alertKakao"),
     VERIFY_CODE("verifyCode"), CANCEL_ORDER("cancel");
     //
 
